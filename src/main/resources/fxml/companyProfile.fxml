@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.CompanyProfileController" >
+	<top>
+		<ToolBar>
+			<Button text="Back" onAction="#doOnBack" />
+		</ToolBar>
+	</top>
+	<center>
+		<VBox spacing="20">
+			<padding><Insets top="10" /></padding>
+			<GridPane vgap="10" alignment="center">
+				<Label text="Name" prefWidth="180"
+					GridPane.columnIndex="0" GridPane.rowIndex="0" />
+				<TextField fx:id="nameField" prefWidth="500"
+					GridPane.columnIndex="1" GridPane.rowIndex="0" />
+				<Label text="Address"
+					GridPane.columnIndex="0" GridPane.rowIndex="1" />
+				<TextField fx:id="addressField"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<Label text="Contact Numbers"
+					GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<TextField fx:id="contactNumbersField"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<Label text="Mobile Number"
+					GridPane.columnIndex="0" GridPane.rowIndex="3" />
+				<TextField fx:id="mobileNumberField"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<Label text="Email Address"
+					GridPane.columnIndex="0" GridPane.rowIndex="4" />
+				<TextField fx:id="emailAddressField"
+					GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				<Label text="TIN"
+					GridPane.columnIndex="0" GridPane.rowIndex="5" />
+				<TextField fx:id="tinField"
+					GridPane.columnIndex="1" GridPane.rowIndex="5" />
+				<Label text="SSS No."
+					GridPane.columnIndex="0" GridPane.rowIndex="6" />
+				<TextField fx:id="sssNumberField"
+					GridPane.columnIndex="1" GridPane.rowIndex="6" />
+				<Label text="Pag-IBIG No."
+					GridPane.columnIndex="0" GridPane.rowIndex="7" />
+				<TextField fx:id="pagibigNumberField"
+					GridPane.columnIndex="1" GridPane.rowIndex="7" />
+				<Label text="PhilHealth No."
+					GridPane.columnIndex="0" GridPane.rowIndex="8" />
+				<TextField fx:id="philhealthNumberField"
+					GridPane.columnIndex="1" GridPane.rowIndex="8" />
+			</GridPane>
+			
+			<HBox alignment="center">
+				<Button text="Save" onAction="#saveCompanyProfile" />
+			</HBox>
+		</VBox>
+	</center>
+</BorderPane>

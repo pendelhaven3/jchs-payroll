@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import javafx.geometry.Insets?>
+<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import com.pj.hrapp.gui.component.AppTableView?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.PayrollController">
+	<top>
+		<ToolBar>
+			<Button text="Back" onAction="#doOnBack" />
+			<Button text="Delete" onAction="#deletePayroll" fx:id="deletePayrollButton" />
+			<Button text="Generate Excel" onAction="#generateExcel" />
+			<Button text="Generate BDO Excel" onAction="#generateBdoExcel" />
+		</ToolBar>
+	</top>
+	<center>
+		<VBox alignment="center" spacing="10">
+			<padding><Insets top="10" bottom="10" /></padding>
+			
+			<HBox spacing="100" alignment="center">
+				<GridPane vgap="10" alignment="center">
+					<Label text="Batch Number" prefWidth="150"
+						GridPane.columnIndex="0" GridPane.rowIndex="0" />
+					<Label fx:id="batchNumberLabel" prefWidth="100"
+						GridPane.columnIndex="1" GridPane.rowIndex="0" />
+					<Label text="Pay Schedule"
+						GridPane.columnIndex="0" GridPane.rowIndex="1" />
+					<Label fx:id="payScheduleLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="1" />
+					<Label text="Posted"
+						GridPane.columnIndex="0" GridPane.rowIndex="2" />
+					<Label fx:id="postedLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				</GridPane>
+				
+				<GridPane vgap="10" alignment="center">
+					<Label text="Pay Date" prefWidth="150"
+						GridPane.columnIndex="0" GridPane.rowIndex="0" />
+					<Label fx:id="payDateLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="0" />
+					<Label text="Period Covered From" prefWidth="200"
+						GridPane.columnIndex="0" GridPane.rowIndex="1" />
+					<Label fx:id="periodCoveredFromLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="1" />
+					<Label text="Period Covered To"
+						GridPane.columnIndex="0" GridPane.rowIndex="2" />
+					<Label fx:id="periodCoveredToLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				</GridPane>
+			</HBox>
+		
+			<HBox spacing="10" alignment="center" fx:id="editPayrollButtonsHBox">
+				<Button text="Update Payroll" onAction="#updatePayroll" />
+				<Button text="Post Payroll" onAction="#postPayroll" />
+				<Button text="Generate SSS/PH/Pag-IBIG for All" onAction="#regenerateAllGovernmentContributions" />
+			</HBox>
+			
+			<TabPane VBox.vgrow="always">
+				<tabs>
+					<Tab text="Payslips" closable="false">
+						<VBox alignment="center" spacing="10">
+							<AppTableView fx:id="payslipsTable">
+								<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+								<columns>
+									<TableColumn text="Employee">
+										<cellValueFactory>
+											<AppPropertyValueFactory property="employee.fullName" />
+										</cellValueFactory>
+									</TableColumn>
+									<TableColumn text="Nickname">
+										<cellValueFactory>
+											<AppPropertyValueFactory property="employee.nickname" />
+										</cellValueFactory>
+									</TableColumn>
+									<TableColumn text="Net Pay" styleClass="right">
+										<cellValueFactory>
+											<AppPropertyValueFactory property="netPay" />
+										</cellValueFactory>
+									</TableColumn>
+									<TableColumn text="Period Covered From" styleClass="center">
+										<cellValueFactory>
+											<AppPropertyValueFactory property="periodCoveredFrom" />
+										</cellValueFactory>
+									</TableColumn>
+									<TableColumn text="Period Covered To" styleClass="center">
+										<cellValueFactory>
+											<AppPropertyValueFactory property="periodCoveredTo" />
+										</cellValueFactory>
+									</TableColumn>
+								</columns>
+							</AppTableView>
+							
+							<HBox spacing="10" alignment="center" fx:id="editPayslipButtonsHBox">
+								<Button text="Add Payslip" onAction="#addPayslip" />
+								<Button text="Delete Payslip" onAction="#deletePayslip" />
+							</HBox>
+						</VBox>
+					</Tab>
+				</tabs>
+			</TabPane>
+			
+		</VBox>
+	</center>
+</BorderPane>

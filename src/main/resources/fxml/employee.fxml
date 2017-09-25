@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.pj.hrapp.gui.component.UppercaseTextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.EmployeeController" >
+	<top>
+		<ToolBar>
+			<Button text="Back" onAction="#doOnBack" />
+			<Button fx:id="deleteButton" text="Delete" onAction="#deleteEmployee" disable="true" />
+		</ToolBar>
+	</top>
+	<center>
+		<HBox spacing="20">
+			<VBox spacing="10" prefWidth="180">
+				<padding><Insets top="20" /></padding>
+				<HBox alignment="center">
+					<ImageView fx:id="employeePictureImageView" fitWidth="96" fitHeight="96" />
+				</HBox>
+				<HBox alignment="center">
+					<Button text="Change Picture" onAction="#changePicture" fx:id="changePictureButton" />
+				</HBox>
+				<HBox alignment="center">
+					<Button text="Remove Picture" onAction="#removePicture" fx:id="removePictureButton" />
+				</HBox>
+			</VBox>
+			<VBox spacing="20">
+				<padding><Insets top="10" /></padding>
+				<TabPane style="-fx-tab-min-width:100px">
+					<tabs>
+						<Tab text="Information" closable="false">
+							<HBox spacing="20">
+								<padding><Insets left="5" top="5" right="5" bottom="5" /></padding>
+								<VBox spacing="10" alignment="center">
+									<HBox alignment="center" spacing="80">
+										<GridPane vgap="10" alignment="center">
+											<Label text="Employee Number" prefWidth="180"
+												GridPane.columnIndex="0" GridPane.rowIndex="0" />
+											<UppercaseTextField fx:id="employeeNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="0" />
+											<Label text="Nickname"
+												GridPane.columnIndex="0" GridPane.rowIndex="1" />
+											<UppercaseTextField fx:id="nicknameField"
+												GridPane.columnIndex="1" GridPane.rowIndex="1" />
+											<Label text="Last Name"
+												GridPane.columnIndex="0" GridPane.rowIndex="2" />
+											<UppercaseTextField fx:id="lastNameField"
+												GridPane.columnIndex="1" GridPane.rowIndex="2" />
+											<Label text="First Name"
+												GridPane.columnIndex="0" GridPane.rowIndex="3" />
+											<UppercaseTextField fx:id="firstNameField"
+												GridPane.columnIndex="1" GridPane.rowIndex="3" />
+											<Label text="Middle Name"
+												GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<UppercaseTextField fx:id="middleNameField"
+												GridPane.columnIndex="1" GridPane.rowIndex="4" />
+											<Label text="Birthday"
+												GridPane.columnIndex="0" GridPane.rowIndex="5" />
+											<AppDatePicker fx:id="birthdayDatePicker"
+												GridPane.columnIndex="1" GridPane.rowIndex="5" />
+											<Label text="Address"
+												GridPane.columnIndex="0" GridPane.rowIndex="6" />
+											<UppercaseTextField fx:id="addressField"
+												GridPane.columnIndex="1" GridPane.rowIndex="6" />
+											<Label text="Contact Number"
+												GridPane.columnIndex="0" GridPane.rowIndex="7" />
+											<UppercaseTextField fx:id="contactNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="7" />
+											<Label text="Pay Schedule"
+												GridPane.columnIndex="0" GridPane.rowIndex="8" />
+											<ComboBox fx:id="payScheduleComboBox"
+												GridPane.columnIndex="1" GridPane.rowIndex="8" />
+											<Label text="Pay Type"
+												GridPane.columnIndex="0" GridPane.rowIndex="9" />
+											<ComboBox fx:id="payTypeComboBox"
+												GridPane.columnIndex="1" GridPane.rowIndex="9" />
+										</GridPane>
+										<GridPane vgap="10" alignment="center">
+											<Label text="SSS Number" prefWidth="200"
+												GridPane.columnIndex="0" GridPane.rowIndex="0" />
+											<UppercaseTextField fx:id="sssNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="0" />
+											<Label text="PhilHealth Number"
+												GridPane.columnIndex="0" GridPane.rowIndex="1" />
+											<UppercaseTextField fx:id="philHealthNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="1" />
+											<Label text="Pag-IBIG Number"
+												GridPane.columnIndex="0" GridPane.rowIndex="2" />
+											<UppercaseTextField fx:id="pagibigNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="2" />
+											<Label text="TIN"
+												GridPane.columnIndex="0" GridPane.rowIndex="3" />
+											<UppercaseTextField fx:id="tinField"
+												GridPane.columnIndex="1" GridPane.rowIndex="3" />
+											<Label text="ATM Account Number"
+												GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<UppercaseTextField fx:id="atmAccountNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="4" />
+											<Label text="MAGIC Customer Code"
+												GridPane.columnIndex="0" GridPane.rowIndex="5" />
+											<UppercaseTextField fx:id="magicCustomerCodeField"
+												GridPane.columnIndex="1" GridPane.rowIndex="5" />
+											<Label text="Date Hired"
+												GridPane.columnIndex="0" GridPane.rowIndex="6" />
+											<AppDatePicker fx:id="dateHiredDatePicker"
+												GridPane.columnIndex="1" GridPane.rowIndex="6" />
+											<Label text="Resigned?"
+												GridPane.columnIndex="0" GridPane.rowIndex="7" />
+											<CheckBox fx:id="resignedCheckBox"
+												GridPane.columnIndex="1" GridPane.rowIndex="7" />
+											<Label text="Date Resigned"
+												GridPane.columnIndex="0" GridPane.rowIndex="8" />
+											<AppDatePicker fx:id="dateResignedDatePicker"
+												GridPane.columnIndex="1" GridPane.rowIndex="8" />
+											<Label text="Household"
+												GridPane.columnIndex="0" GridPane.rowIndex="9" />
+											<CheckBox fx:id="householdCheckBox"
+												GridPane.columnIndex="1" GridPane.rowIndex="9" />
+										</GridPane>
+									</HBox>
+								</VBox>
+							</HBox>
+						</Tab>
+						<Tab text="Remarks" closable="false">
+							<BorderPane>
+								<padding><Insets left="5" top="5" right="5" bottom="5" /></padding>
+								<center>
+									<TextArea fx:id="remarksTextArea" />
+								</center>
+							</BorderPane>
+						</Tab>
+					</tabs>
+				</TabPane>
+				
+				<HBox alignment="center">
+					<Button text="Save" onAction="#saveEmployee" />
+				</HBox>
+			</VBox>
+		</HBox>
+	</center>
+</BorderPane>

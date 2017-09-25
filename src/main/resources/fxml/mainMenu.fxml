@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.pj.hrapp.controller.MainMenuController"
+		alignment="center" spacing="10">
+	
+	<Button text="Employees" onAction="#goToEmployeeList" />
+	<Button text="Salaries" onAction="#goToSalaryList" />
+	<Button text="Employee Loans" onAction="#goToEmployeeLoanList" />
+	<Button text="Payroll" onAction="#goToPayrollList" />
+	<Button text="SSS Contribution Table" onAction="#goToSSSContributionTable" />
+	<Button text="PhilHealth Contribution Table" onAction="#goToPhilHealthContributionTable" />
+	<Button text="Edit Pag-ibig Contribution" onAction="#goToEditPagibigContributionValueScreen" />
+	<Button text="Employee Attendances" onAction="#goToEmployeeAttendanceList" />
+	<Button text="Reports" onAction="#goToReportsList" />
+	<Button text="Company Profile" onAction="#goToCompanyProfileScreen" />
+
+</VBox>

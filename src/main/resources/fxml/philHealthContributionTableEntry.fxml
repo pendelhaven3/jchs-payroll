@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ToolBar?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.PhilHealthContributionTableEntryController" >
+	<top>
+		<ToolBar>
+			<Button text="Back" onAction="#doOnBack" />
+			<Button text="Delete" onAction="#deleteEntry" />
+		</ToolBar>
+	</top>
+	<center>
+		<VBox alignment="center" spacing="10">
+			<GridPane vgap="10" alignment="center">
+				<Label text="Salary From:" prefWidth="200" 
+					GridPane.columnIndex="0" GridPane.rowIndex="0" />
+				<TextField fx:id="salaryFromField"
+					GridPane.columnIndex="1" GridPane.rowIndex="0" />
+				<Label text="Salary To:" 
+					GridPane.columnIndex="0" GridPane.rowIndex="1" />
+				<TextField fx:id="salaryToField"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<Label text="Employee Share:" 
+					GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<TextField fx:id="employeeShareField"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
+			</GridPane>
+		
+			<HBox spacing="10" alignment="center">
+				<Button text="Save" onAction="#saveEntry" />
+				<Button text="Cancel" onAction="#cancel" />
+			</HBox>
+		</VBox>
+	</center>
+</BorderPane>

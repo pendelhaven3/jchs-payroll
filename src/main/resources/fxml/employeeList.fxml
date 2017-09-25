@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.ToolBar?>
+<?import com.pj.hrapp.gui.component.AppTableView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.EmployeeListController" 
+	alignment="center">
+	
+	<ToolBar>
+		<Button text="Back" onAction="#doOnBack" />
+		<Button text="Add" onAction="#addEmployee" />
+		<Button text="Search" onAction="#searchEmployees" />
+	</ToolBar>
+	
+	<AppTableView fx:id="employeesTable" VBox.vgrow="always">
+		<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+		<columns>
+			<TableColumn text="Employee Number" styleClass="center">
+				<cellValueFactory>
+					<PropertyValueFactory property="employeeNumber" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="Full Name">
+				<cellValueFactory>
+					<PropertyValueFactory property="fullName" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="Nickname">
+				<cellValueFactory>
+					<PropertyValueFactory property="nickname" />
+				</cellValueFactory>
+			</TableColumn>
+		</columns>
+	</AppTableView>
+	
+</VBox>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import javafx.geometry.Insets?>
+<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import com.pj.hrapp.gui.component.AppTableView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+		fx:controller="com.pj.hrapp.controller.LatesReportController">
+	<top>
+		<ToolBar>
+			<Button text="Back" onAction="#doOnBack" />
+		</ToolBar>
+	</top>
+	<center>
+		<VBox alignment="center" spacing="10">
+			<padding><Insets top="10" bottom="10" /></padding>
+			<GridPane vgap="10" alignment="center">
+				<Label text="Date From" prefWidth="150"
+					GridPane.columnIndex="0" GridPane.rowIndex="1" />
+				<AppDatePicker fx:id="dateFromDatePicker"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<Label text="Date To"
+					GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<AppDatePicker fx:id="dateToDatePicker"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
+			</GridPane>
+		
+			<HBox alignment="center">
+				<Button text="Search" onAction="#searchLates" />
+			</HBox>
+		
+			<AppTableView fx:id="latesTable" VBox.vgrow="always">
+				<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+				<columns>
+					<TableColumn text="Employee">
+						<cellValueFactory>
+							<AppPropertyValueFactory property="employeeNickname" />
+						</cellValueFactory>
+					</TableColumn>
+					<TableColumn text="Lates">
+						<cellValueFactory>
+							<AppPropertyValueFactory property="lates" />
+						</cellValueFactory>
+					</TableColumn>
+				</columns>
+			</AppTableView>
+
+			<HBox alignment="center" spacing="50">
+				<Label text="Total Lates:" />
+				<Text fx:id="totalLatesText" />
+			</HBox>
+			
+		</VBox>
+	</center>
+</BorderPane>
