@@ -28,6 +28,8 @@ public class EditPagibigContributionValueController extends AbstractController {
 	
 	@Override
 	public void updateDisplay() {
+	    stageController.setTitle("Edit Pag-ibig Contribution");
+	    
 		valueField.setText(FormatterUtil.formatAmount(systemService.getPagibigContributionValue()));
 		valueField.requestFocus();
 	}

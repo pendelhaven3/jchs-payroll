@@ -16,7 +16,6 @@ public class SearchEmployeesDialog extends AbstractDialog {
 	@FXML private TextField lastNameField;
 	@FXML private TextField firstNameField;
 	@FXML private ComboBox<String> statusComboBox;
-	@FXML private ComboBox<String> householdComboBox;
 	
 	@Parameter private EmployeeSearchCriteria searchCriteria;
 	
@@ -28,7 +27,6 @@ public class SearchEmployeesDialog extends AbstractDialog {
 	@Override
 	protected void updateDisplay() {
 		statusComboBox.setItems(FXCollections.observableArrayList("All", "Active", "Resigned"));
-		householdComboBox.setItems(FXCollections.observableArrayList("", "Yes", "No"));
 		
 		if (searchCriteria != null) {
 			lastNameField.setText(searchCriteria.getLastName());
@@ -40,14 +38,8 @@ public class SearchEmployeesDialog extends AbstractDialog {
 				statusComboBox.setValue("All");
 			}
 			
-			if (searchCriteria.getHousehold() != null) {
-				householdComboBox.setValue(searchCriteria.getHousehold() ? "Yes" : "No");
-			} else {
-				householdComboBox.setValue(null);
-			}
 		} else {
 			statusComboBox.getSelectionModel().select(1);
-			householdComboBox.getSelectionModel().select(0);
 		}
 		
 		searchCriteria = null;
@@ -64,7 +56,6 @@ public class SearchEmployeesDialog extends AbstractDialog {
 		searchCriteria.setLastName(lastNameField.getText());
 		searchCriteria.setFirstName(firstNameField.getText());
 		searchCriteria.setResigned(getStatusComboBoxValue());
-		searchCriteria.setHousehold(getHouseholdComboBoxValue());
 		hide();
 	}
 
@@ -76,14 +67,6 @@ public class SearchEmployeesDialog extends AbstractDialog {
 		}
 	}
 
-	private Boolean getHouseholdComboBoxValue() {
-		if (householdComboBox.getSelectionModel().getSelectedIndex() == 0) {
-			return null;
-		} else {
-			return "Yes".equals(householdComboBox.getValue());
-		}
-	}
-	
 	public EmployeeSearchCriteria getSearchCriteria() {
 		return searchCriteria;
 	}

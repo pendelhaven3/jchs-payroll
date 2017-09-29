@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import com.pj.hrapp.Parameter;
 import com.pj.hrapp.dialog.AddPayslipDialog;
 import com.pj.hrapp.dialog.AutoGeneratePayrollContributionsDialog;
-import com.pj.hrapp.exception.ConnectToMagicException;
 import com.pj.hrapp.gui.component.AppTableView;
 import com.pj.hrapp.gui.component.ShowDialog;
 import com.pj.hrapp.model.Payroll;
@@ -28,7 +27,6 @@ import com.pj.hrapp.service.PayrollService;
 import com.pj.hrapp.util.DateUtil;
 import com.pj.hrapp.util.ExcelUtil;
 import com.pj.hrapp.util.FormatterUtil;
-import com.pj.hrapp.util.PayrollToBdoExcelGenerator;
 import com.pj.hrapp.util.PayrollToExcelGenerator;
 
 import javafx.fxml.FXML;
@@ -46,7 +44,6 @@ public class PayrollController extends AbstractController {
 	
 	@Autowired private PayrollService payrollService;
 	@Autowired private PayrollToExcelGenerator excelGenerator;
-	@Autowired private PayrollToBdoExcelGenerator bdoExcelGenerator;
 	@Autowired private AddPayslipDialog addPayslipDialog;
 	@Autowired private AutoGeneratePayrollContributionsDialog autoGeneratePayrollContributionsDialog;
 	
@@ -206,9 +203,6 @@ public class PayrollController extends AbstractController {
 		
 		try {
 			payrollService.postPayroll(payroll);
-		} catch (ConnectToMagicException e) {
-			ShowDialog.error("Cannot connect to MAGIC");
-			return;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			ShowDialog.unexpectedError();
@@ -217,42 +211,6 @@ public class PayrollController extends AbstractController {
 		
 		ShowDialog.info("Payroll posted");
 		updateDisplay();
-	}
-
-	@FXML 
-	public void generateBdoExcel() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save File");
-        fileChooser.setInitialDirectory(Paths.get(System.getProperty("user.home"), "Desktop").toFile());
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Excel Macro-Enabled Workbook", "*.xlsm"));
-        fileChooser.setInitialFileName(getBdoExcelFilename());
-        File file = fileChooser.showSaveDialog(stageController.getStage());
-        if (file == null) {
-        	return;
-        }
-		
-		try (
-			Workbook workbook = bdoExcelGenerator.generate(payroll);
-			FileOutputStream out = new FileOutputStream(file);
-		) {
-			workbook.write(out);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-			ShowDialog.unexpectedError();
-			return;
-		}
-		
-		if (ShowDialog.confirm("Excel file generated.\nDo you wish to open the file?")) {
-			ExcelUtil.openExcelFile(file);
-		}
-	}
-
-	private String getBdoExcelFilename() {
-		return new StringBuilder()
-				.append("BDO EPCI Regular Payroll ")
-				.append(new SimpleDateFormat("MM-dd").format(payroll.getPayDate()))
-				.append(".xlsm")
-				.toString();
 	}
 
 	@FXML 

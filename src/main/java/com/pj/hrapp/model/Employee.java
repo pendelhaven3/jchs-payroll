@@ -33,12 +33,7 @@ public class Employee implements Comparable<Employee> {
 	private String philHealthNumber;
 	private String pagibigNumber;
 	private String tin;
-	private String atmAccountNumber;
-	private String magicCustomerCode;
 	private Date hireDate;
-	
-	@Column(columnDefinition = "boolean default false")
-	private boolean household;
 	
 	@Enumerated(EnumType.STRING)
 	private PaySchedule paySchedule;
@@ -161,14 +156,6 @@ public class Employee implements Comparable<Employee> {
 				.toString();
 	}
 
-	public String getMagicCustomerCode() {
-		return magicCustomerCode;
-	}
-
-	public void setMagicCustomerCode(String magicCustomerCode) {
-		this.magicCustomerCode = magicCustomerCode;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -191,14 +178,6 @@ public class Employee implements Comparable<Employee> {
 
 	public void setPhilHealthNumber(String philHealthNumber) {
 		this.philHealthNumber = philHealthNumber;
-	}
-
-	public String getAtmAccountNumber() {
-		return atmAccountNumber;
-	}
-
-	public void setAtmAccountNumber(String atmAccountNumber) {
-		this.atmAccountNumber = atmAccountNumber;
 	}
 
 	public Date getHireDate() {
@@ -273,14 +252,6 @@ public class Employee implements Comparable<Employee> {
 
 	public void setPayType(PayType payType) {
 		this.payType = payType;
-	}
-
-	public boolean isHousehold() {
-		return household;
-	}
-
-	public void setHousehold(boolean household) {
-		this.household = household;
 	}
 
 	public String getRemarks() {

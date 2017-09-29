@@ -142,10 +142,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			specifications = specifications.and(withResigned(criteria.getResigned()));
 		}
 		
-		if (criteria.getHousehold() != null) {
-			specifications = specifications.and(withHousehold(criteria.getHousehold()));
-		}
-		
 		return employeeRepository.findAll(specifications);
 	}
 	

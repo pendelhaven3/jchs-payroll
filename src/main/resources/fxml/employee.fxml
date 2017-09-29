@@ -108,14 +108,6 @@
 												GridPane.columnIndex="0" GridPane.rowIndex="3" />
 											<UppercaseTextField fx:id="tinField"
 												GridPane.columnIndex="1" GridPane.rowIndex="3" />
-											<Label text="ATM Account Number"
-												GridPane.columnIndex="0" GridPane.rowIndex="4" />
-											<UppercaseTextField fx:id="atmAccountNumberField"
-												GridPane.columnIndex="1" GridPane.rowIndex="4" />
-											<Label text="MAGIC Customer Code"
-												GridPane.columnIndex="0" GridPane.rowIndex="5" />
-											<UppercaseTextField fx:id="magicCustomerCodeField"
-												GridPane.columnIndex="1" GridPane.rowIndex="5" />
 											<Label text="Date Hired"
 												GridPane.columnIndex="0" GridPane.rowIndex="6" />
 											<AppDatePicker fx:id="dateHiredDatePicker"
@@ -128,10 +120,6 @@
 												GridPane.columnIndex="0" GridPane.rowIndex="8" />
 											<AppDatePicker fx:id="dateResignedDatePicker"
 												GridPane.columnIndex="1" GridPane.rowIndex="8" />
-											<Label text="Household"
-												GridPane.columnIndex="0" GridPane.rowIndex="9" />
-											<CheckBox fx:id="householdCheckBox"
-												GridPane.columnIndex="1" GridPane.rowIndex="9" />
 										</GridPane>
 									</HBox>
 								</VBox>

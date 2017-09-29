@@ -57,7 +57,8 @@ public class EmployeeAttendanceListController extends AbstractController {
 		dateFromDatePicker.setValue(DateUtil.toLocalDate(currentMonthInterval.getDateFrom()));
 		dateToDatePicker.setValue(DateUtil.toLocalDate(currentMonthInterval.getDateTo()));
 		
-		payScheduleComboBox.setItems(FXCollections.observableArrayList(PaySchedule.values()));
+		payScheduleComboBox.setItems(FXCollections.observableArrayList(PaySchedule.WEEKLY));
+        payScheduleComboBox.setValue(PaySchedule.WEEKLY);
 		
 		attendancesByEmployeeTable.setDoubleClickAction(() -> {
 			updateEmployeeAttendance(attendancesByEmployeeTable.getSelectedItem());

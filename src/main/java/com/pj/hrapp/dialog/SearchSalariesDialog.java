@@ -35,7 +35,8 @@ public class SearchSalariesDialog extends AbstractDialog {
 	protected void updateDisplay() {
 		searchCriteria = null;
 		employeeComboBox.setItems(FXCollections.observableList(employeeService.getAllEmployees()));
-		payScheduleComboBox.setItems(FXCollections.observableArrayList(PaySchedule.values()));
+		payScheduleComboBox.getItems().setAll(PaySchedule.WEEKLY);
+		payScheduleComboBox.setValue(PaySchedule.WEEKLY);
 		
 		employeeComboBox.setValue(employee);
 		payScheduleComboBox.setValue(paySchedule);

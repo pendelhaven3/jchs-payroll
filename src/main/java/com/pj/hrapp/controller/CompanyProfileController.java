@@ -1,5 +1,6 @@
 package com.pj.hrapp.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,11 @@ public class CompanyProfileController extends AbstractController {
 		philhealthNumberField.setText(companyProfile.getPhilhealthNumber());
 		
 		nameField.requestFocus();
-		nameField.positionCaret(nameField.getText().length());
+		
+		String name = nameField.getText();
+		if (!StringUtils.isEmpty(name)) {
+	        nameField.positionCaret(name.length());
+		}
 	}
 
 	@FXML 

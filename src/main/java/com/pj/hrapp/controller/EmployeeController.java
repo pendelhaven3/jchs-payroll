@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,14 +58,11 @@ public class EmployeeController extends AbstractController {
 	@FXML private TextField philHealthNumberField;
 	@FXML private TextField pagibigNumberField;
 	@FXML private TextField tinField;
-	@FXML private TextField atmAccountNumberField;
-	@FXML private TextField magicCustomerCodeField;
 	@FXML private DatePicker dateHiredDatePicker;
 	@FXML private ComboBox<PaySchedule> payScheduleComboBox;
 	@FXML private ComboBox<PayType> payTypeComboBox;
 	@FXML private CheckBox resignedCheckBox;
 	@FXML private DatePicker dateResignedDatePicker;
-	@FXML private CheckBox householdCheckBox;
 	@FXML private Button deleteButton;
 	@FXML private ImageView employeePictureImageView;
 	@FXML private Button changePictureButton;
@@ -78,8 +74,10 @@ public class EmployeeController extends AbstractController {
 	@Override
 	public void updateDisplay() {
 		stageController.setTitle(getTitle());
-		payScheduleComboBox.getItems().setAll(PaySchedule.values());
-		payTypeComboBox.getItems().setAll(PayType.values());
+		payScheduleComboBox.getItems().setAll(PaySchedule.WEEKLY);
+		payScheduleComboBox.setValue(PaySchedule.WEEKLY);
+		payTypeComboBox.getItems().setAll(PayType.PER_DAY);
+		payTypeComboBox.setValue(PayType.PER_DAY);
 		
 		if (employee != null) {
 			employee = employeeService.getEmployee(employee.getId());
@@ -95,13 +93,10 @@ public class EmployeeController extends AbstractController {
 			philHealthNumberField.setText(employee.getPhilHealthNumber());
 			pagibigNumberField.setText(employee.getPagibigNumber());
 			tinField.setText(employee.getTin());
-			atmAccountNumberField.setText(employee.getAtmAccountNumber());
-			magicCustomerCodeField.setText(employee.getMagicCustomerCode());
 			dateHiredDatePicker.setValue(DateUtil.toLocalDate(employee.getHireDate()));
 			payScheduleComboBox.setValue(employee.getPaySchedule());
 			payTypeComboBox.setValue(employee.getPayType());
 			resignedCheckBox.setSelected(employee.isResigned());
-			householdCheckBox.setSelected(employee.isHousehold());
 			dateResignedDatePicker.setValue(DateUtil.toLocalDate(employee.getResignDate()));
 			remarksTextArea.setText(employee.getRemarks());
 			deleteButton.setDisable(false);
@@ -169,14 +164,11 @@ public class EmployeeController extends AbstractController {
 		employee.setPhilHealthNumber(philHealthNumberField.getText());
 		employee.setPagibigNumber(pagibigNumberField.getText());
 		employee.setTin(tinField.getText());
-		employee.setAtmAccountNumber(atmAccountNumberField.getText());
-		employee.setMagicCustomerCode(StringUtils.trimToNull(magicCustomerCodeField.getText()));
 		employee.setHireDate(DateUtil.toDate(dateHiredDatePicker.getValue()));
 		employee.setPaySchedule(payScheduleComboBox.getValue());
 		employee.setPayType(payTypeComboBox.getValue());
 		employee.setResigned(resignedCheckBox.isSelected());
 		employee.setResignDate(DateUtil.toDate(dateResignedDatePicker.getValue()));
-		employee.setHousehold(householdCheckBox.isSelected());
 		employee.setRemarks(remarksTextArea.getText());
 		try {
 			employeeService.save(employee);

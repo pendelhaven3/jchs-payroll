@@ -105,7 +105,7 @@ public class StageController {
 	}
 	
 	public void setTitle(String title) {
-		stage.setTitle("HR App - " + title);
+		stage.setTitle("JCHS Payroll App - " + title);
 	}
 
 	public void showMainMenuScreen() {

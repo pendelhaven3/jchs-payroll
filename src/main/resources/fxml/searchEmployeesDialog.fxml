@@ -10,6 +10,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import com.pj.hrapp.gui.component.UppercaseTextField?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" >
 	<center>
@@ -17,20 +18,16 @@
 			<GridPane vgap="10" alignment="center">
 				<Label text="Last Name" prefWidth="150" 
 					GridPane.columnIndex="0" GridPane.rowIndex="0" />
-				<TextField fx:id="lastNameField"
+				<UppercaseTextField fx:id="lastNameField"
 					GridPane.columnIndex="1" GridPane.rowIndex="0" />
 				<Label text="First Name" prefWidth="150" 
 					GridPane.columnIndex="0" GridPane.rowIndex="1" />
-				<TextField fx:id="firstNameField"
+				<UppercaseTextField fx:id="firstNameField"
 					GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<Label text="Status" prefWidth="150" 
 					GridPane.columnIndex="0" GridPane.rowIndex="2" />
 				<ComboBox fx:id="statusComboBox"
 					GridPane.columnIndex="1" GridPane.rowIndex="2" />
-				<Label text="Household?" prefWidth="150" 
-					GridPane.columnIndex="0" GridPane.rowIndex="3" />
-				<ComboBox fx:id="householdComboBox"
-					GridPane.columnIndex="1" GridPane.rowIndex="3" />
 			</GridPane>
 		
 			<Region prefHeight="10" />

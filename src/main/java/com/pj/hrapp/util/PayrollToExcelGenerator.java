@@ -21,7 +21,6 @@ import com.pj.hrapp.model.Payroll;
 import com.pj.hrapp.model.Payslip;
 import com.pj.hrapp.model.PayslipAdjustment;
 import com.pj.hrapp.model.PayslipBasicPayItem;
-import com.pj.hrapp.model.ValeProduct;
 import com.pj.hrapp.service.PayrollService;
 
 @Component
@@ -144,23 +143,6 @@ public class PayrollToExcelGenerator {
 					cell = row.getCell(payslipColumns[i][2], Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 					cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
 					cell.setCellValue(loanPayment.getAmount().negate().doubleValue());
-					cell.setCellStyle(rightBorderedAmountCellStyle);
-					
-					currentRow++;
-				}
-				
-				List<ValeProduct> valeProducts = payslip.getValeProducts();
-				for (int j = 0; j < valeProducts.size(); j++) {
-					ValeProduct valeProduct = valeProducts.get(j);
-					row = sheet.getRow(currentRow);
-					
-					cell = row.getCell(payslipColumns[i][0], Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-					cell.setCellType(XSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(valeProduct.getDescription());
-					
-					cell = row.getCell(payslipColumns[i][2], Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-					cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
-					cell.setCellValue(valeProduct.getAmount().negate().doubleValue());
 					cell.setCellStyle(rightBorderedAmountCellStyle);
 					
 					currentRow++;

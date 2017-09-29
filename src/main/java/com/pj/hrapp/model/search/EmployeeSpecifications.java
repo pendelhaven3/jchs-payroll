@@ -18,8 +18,4 @@ public class EmployeeSpecifications extends BaseSpecifications {
 		return (root, query, builder) -> builder.equal(root.get("resigned"), resigned);
 	}
 
-	public static Specification<Employee> withHousehold(Boolean household) {
-		return (root, query, builder) -> builder.equal(root.get("household"), household);
-	}
-	
 }

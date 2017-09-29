@@ -5,7 +5,6 @@ public class EmployeeSearchCriteria {
 	private String lastName;
 	private String firstName;
 	private Boolean resigned;
-	private Boolean household;
 
 	public String getLastName() {
 		return lastName;
@@ -31,12 +30,4 @@ public class EmployeeSearchCriteria {
 		this.resigned = resigned;
 	}
 
-	public Boolean getHousehold() {
-		return household;
-	}
-
-	public void setHousehold(Boolean household) {
-		this.household = household;
-	}
-	
 }

@@ -40,7 +40,9 @@ public class SystemServiceImpl implements SystemService {
 	public CompanyProfile getCompanyProfile() {
 		CompanyProfile companyProfile = companyProfileRepository.findOne(1L);
 		if (companyProfile == null) {
-			companyProfile = new CompanyProfile(1L);
+//			companyProfile = new CompanyProfile(1L);
+            companyProfile = new CompanyProfile();
+            companyProfile.setId(1L);
 		}
 		return companyProfile;
 	}

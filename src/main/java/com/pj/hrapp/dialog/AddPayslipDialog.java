@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pj.hrapp.Parameter;
-import com.pj.hrapp.exception.ConnectToMagicException;
-import com.pj.hrapp.exception.NoMagicCustomerCodeException;
 import com.pj.hrapp.gui.component.AppTableView;
 import com.pj.hrapp.gui.component.SelectableTableView;
 import com.pj.hrapp.gui.component.ShowDialog;
@@ -17,12 +15,9 @@ import com.pj.hrapp.model.Employee;
 import com.pj.hrapp.model.EmployeeLoan;
 import com.pj.hrapp.model.Payroll;
 import com.pj.hrapp.model.Payslip;
-import com.pj.hrapp.model.ValeProduct;
-import com.pj.hrapp.model.util.TableItem;
 import com.pj.hrapp.service.EmployeeLoanService;
 import com.pj.hrapp.service.EmployeeService;
 import com.pj.hrapp.service.PayrollService;
-import com.pj.hrapp.service.ValeProductService;
 
 import javafx.fxml.FXML;
 
@@ -33,11 +28,9 @@ public class AddPayslipDialog extends AbstractDialog {
 	
 	@Autowired private EmployeeService employeeService;
 	@Autowired private PayrollService payrollService;
-	@Autowired private ValeProductService valeProductService;
 	@Autowired private EmployeeLoanService employeeLoanService;
 	
 	@FXML private AppTableView<Employee> employeesTable;
-	@FXML private SelectableTableView<ValeProduct> valeProductsTable;
 	@FXML private SelectableTableView<EmployeeLoan> employeeLoansTable;
 	
 	@Parameter private Payroll payroll;
@@ -51,20 +44,6 @@ public class AddPayslipDialog extends AbstractDialog {
 		employeesTable.setDoubleClickAction(() -> createPayslip());
 	}
 	
-	private void updateValeProductsTable() {
-		valeProductsTable.getItems().clear();
-		
-		try {
-			for (ValeProduct valeProduct : valeProductService.findUnpaidValeProductsByEmployee(payslip.getEmployee())) {
-				valeProductsTable.getItems().add(new TableItem<ValeProduct>(valeProduct));
-			}
-		} catch (NoMagicCustomerCodeException e) {
-			ShowDialog.error("Employee MAGIC customer code not specified");
-		} catch (ConnectToMagicException e) {
-			ShowDialog.error("Cannot connect to MAGIC");
-		}
-	}
-
 	@Override
 	protected String getDialogTitle() {
 		return "Add Payslip - Select Employee";
@@ -100,7 +79,8 @@ public class AddPayslipDialog extends AbstractDialog {
 			return;
 		}
 		
-		switchToAddLoanPaymentsScreen();
+//		switchToAddLoanPaymentsScreen();
+		close();
 	}
 	
 	private void switchToAddLoanPaymentsScreen() {
@@ -115,13 +95,6 @@ public class AddPayslipDialog extends AbstractDialog {
 						payslip.getEmployee(), payslip.getPayroll().getPayDate()));
 	}
 
-	@FXML
-	public void switchToAddValeProductScreen() {
-		changeScene("addPayslipDialog-valeProduct");
-		setTitle("Add Payslip - Add Vale Products");
-		updateValeProductsTable();
-	}
-
 	private boolean hasNoSelectedEmployee() {
 		return getSelectedEmployee() == null;
 	}
@@ -130,49 +103,6 @@ public class AddPayslipDialog extends AbstractDialog {
 		return employeesTable.getSelectionModel().getSelectedItem();
 	}
 
-	@FXML
-	public void addAllValeProducts() {
-		if (employeeHasNoValeProducts()) {
-			ShowDialog.error("No vale products to add");
-		} else {
-			addValeProductsToPayslip(valeProductsTable.getAllItems());
-		}
-	}
-	
-	private boolean employeeHasNoValeProducts() {
-		return valeProductsTable.hasNoItems();
-	}
-
-	@FXML
-	public void addSelectedValeProducts() {
-		if (hasNoValeProductsSelected()) {
-			ShowDialog.error("No vale products selected");
-		} else {
-			addValeProductsToPayslip(valeProductsTable.getSelectedItems());
-		}
-	}
-
-	private boolean hasNoValeProductsSelected() {
-		return !valeProductsTable.hasSelected();
-	}
-
-	private void addValeProductsToPayslip(List<ValeProduct> valeProducts) {
-		if (!ShowDialog.confirm("Add vale products?")) {
-			return;
-		}
-		
-		try {
-			valeProductService.addValeProductsToPayslip(valeProducts, payslip);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			ShowDialog.unexpectedError();
-			return;
-		}
-		
-		ShowDialog.info("Vale Products saved");
-		hide();
-	}
-	
 	@FXML
 	public void addAllLoanPayments() {
 		if (employeeHasNoUnpaidLoans()) {
@@ -210,7 +140,6 @@ public class AddPayslipDialog extends AbstractDialog {
 		}
 		
 		ShowDialog.info("Loan payments saved");
-		switchToAddValeProductScreen();
 	}
 
 	public Payslip getPayslip() {

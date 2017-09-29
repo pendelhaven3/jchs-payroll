@@ -10,11 +10,9 @@ import org.springframework.stereotype.Controller;
 
 import com.pj.hrapp.Parameter;
 import com.pj.hrapp.dialog.AddPayslipLoanPaymentDialog;
-import com.pj.hrapp.dialog.AddValeProductDialog;
 import com.pj.hrapp.dialog.EmployeeAttendanceDialog;
 import com.pj.hrapp.dialog.PayslipAdjustmentDialog;
 import com.pj.hrapp.dialog.AutoGeneratePayslipContributionsDialog;
-import com.pj.hrapp.exception.ConnectToMagicException;
 import com.pj.hrapp.gui.component.AppTableView;
 import com.pj.hrapp.gui.component.ShowDialog;
 import com.pj.hrapp.model.EmployeeAttendance;
@@ -23,11 +21,9 @@ import com.pj.hrapp.model.Payslip;
 import com.pj.hrapp.model.PayslipAdjustment;
 import com.pj.hrapp.model.PayslipBasicPayItem;
 import com.pj.hrapp.model.PreviewPayslipItem;
-import com.pj.hrapp.model.ValeProduct;
 import com.pj.hrapp.service.EmployeeLoanService;
 import com.pj.hrapp.service.EmployeeService;
 import com.pj.hrapp.service.PayrollService;
-import com.pj.hrapp.service.ValeProductService;
 import com.pj.hrapp.util.DateUtil;
 import com.pj.hrapp.util.FormatterUtil;
 
@@ -46,11 +42,9 @@ public class PayslipController extends AbstractController {
 	private static final int OTHERS_TAB_INDEX = 4;
 	
 	@Autowired private PayrollService payrollService;
-	@Autowired private ValeProductService valeProductService;
 	@Autowired private EmployeeService employeeService;
 	@Autowired private EmployeeLoanService employeeLoanService;
 	@Autowired private EmployeeAttendanceDialog employeeAttendanceDialog;
-	@Autowired private AddValeProductDialog addValeProductDialog;
 	@Autowired private PayslipAdjustmentDialog payslipAdjustmentDialog;
 	@Autowired private AddPayslipLoanPaymentDialog addPayslipLoanPaymentDialog;
     @Autowired private AutoGeneratePayslipContributionsDialog autoGenerateContributionsDialog;
@@ -65,7 +59,6 @@ public class PayslipController extends AbstractController {
 	@FXML private AppTableView<EmployeeAttendance> attendancesTable;
 	@FXML private TableView<PayslipBasicPayItem> basicPayItemsTable;
 	@FXML private AppTableView<EmployeeLoanPayment> loanPaymentsTable;
-	@FXML private AppTableView<ValeProduct> valeProductsTable;
 	@FXML private AppTableView<PayslipAdjustment> adjustmentsTable;
 	@FXML private TableView<PreviewPayslipItem> previewPayslipTable;
 	@FXML private TabPane tabPane;
@@ -98,9 +91,6 @@ public class PayslipController extends AbstractController {
 		loanPaymentsTable.setItems(payslip.getLoanPayments());
 		loanPaymentsTable.setDeleteKeyAction(() -> deleteLoanPayment());
 		
-		valeProductsTable.getItems().setAll(payslip.getValeProducts());
-		valeProductsTable.setDeleteKeyAction(() -> deleteValeProduct());
-		
 		adjustmentsTable.getItems().setAll(payslip.getAdjustments());
 		adjustmentsTable.setDoubleClickAction(() -> editSelectedAdjustment());
 		adjustmentsTable.setDeleteKeyAction(() -> deletePayslipAdjustment());
@@ -121,7 +111,6 @@ public class PayslipController extends AbstractController {
 		
 		attendancesTable.setDoubleClickAction(null);
 		loanPaymentsTable.setDeleteKeyAction(null);
-		valeProductsTable.setDeleteKeyAction(null);
 		adjustmentsTable.setDoubleClickAction(null);
 		adjustmentsTable.setDeleteKeyAction(null);
 	}
@@ -194,53 +183,6 @@ public class PayslipController extends AbstractController {
 
 	private boolean isAdjustmentSelected() {
 		return adjustmentsTable.getSelectionModel().getSelectedItem() != null;
-	}
-
-	@FXML public void addValeProduct() {
-		if (!canConnectToMagic()) {
-			ShowDialog.error("Cannot connet to MAGIC");
-			return;
-		};
-		
-		Map<String, Object> model = new HashMap<>();
-		model.put("payslip", payslip);
-		
-		addValeProductDialog.showAndWait(model);
-		
-		updateDisplay();
-	}
-
-	private boolean canConnectToMagic() {
-		try {
-			valeProductService.findUnpaidValeProductsByEmployee(payslip.getEmployee());
-		} catch (ConnectToMagicException e) {
-			return false;
-		}
-		
-		return true;
-	}
-
-	@FXML public void deleteValeProduct() {
-		if (hasValeProductSelected() && ShowDialog.confirm("Delete selected vale product?")) {
-			try {
-				payrollService.delete(getSelectedValeProduct());
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-				ShowDialog.unexpectedError();
-				return;
-			}
-			
-			ShowDialog.info("Vale product deleted");
-			updateDisplay();
-		}
-	}
-
-	private boolean hasValeProductSelected() {
-		return getSelectedValeProduct() != null;
-	}
-
-	private ValeProduct getSelectedValeProduct() {
-		return valeProductsTable.getSelectionModel().getSelectedItem();
 	}
 
 	@FXML public void addLoanPayment() {

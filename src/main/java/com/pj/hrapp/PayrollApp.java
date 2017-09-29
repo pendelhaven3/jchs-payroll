@@ -1,5 +1,6 @@
 package com.pj.hrapp;
 
+import java.awt.SplashScreen;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -17,51 +18,55 @@ import javafx.stage.Stage;
 @SpringBootApplication
 public class PayrollApp extends Application {
 
-	private static String[] args;
-	
-	public static void main(String[] args) throws Exception {
-		PayrollApp.args = args;
-		launch(args);
-	}
-	
-	private ApplicationContext context;
-	private Stage stage;
-	
-	@Override
-	public void start(Stage stage) throws Exception {
-		this.stage = stage;
-		context = SpringApplication.run(PayrollApp.class, args);
-		
-		if (isDatabaseNotFound()) {
-			ShowDialog.error("Database not found");
-		} else {
-			setupInitialDatabaseValues();
-			showMainMenuScreen();
-		}
-	}
+    private static String[] args;
+    private static SplashScreen splashScreen;
+    
+    public static void main(String[] args) throws Exception {
+        PayrollApp.args = args;
+        splashScreen = SplashScreen.getSplashScreen();
+        launch(args);
+    }
 
-	private void setupInitialDatabaseValues() {
-		context.getBean(SystemSetup.class).run();
-	}
+    private ApplicationContext context;
+    private Stage stage;
 
-	private boolean isDatabaseNotFound() {
-		DataSource dataSource = context.getBean(DataSource.class);
-		
-		try {
-			dataSource.getConnection().close();
-		} catch (SQLException e) {
-			return true;
-		}
-		
-		return false;
-	}
+    @Override
+    public void start(Stage stage) throws Exception {
+        this.stage = stage;
+        context = SpringApplication.run(PayrollApp.class, args);
 
-	private void showMainMenuScreen() {
-		StageController stageController = context.getBean(StageController.class);
-		stageController.setStage(stage);
-		stageController.showMainMenuScreen();
-		stage.setResizable(true);
-		stage.show();
-	}
+        if (isDatabaseNotFound()) {
+            ShowDialog.error("Database not found");
+        } else {
+            closeSplashScreen();
+            showMainMenuScreen();
+        }
+    }
+
+    private void closeSplashScreen() {
+        if (splashScreen != null) {
+            splashScreen.close();
+        }
+    }
+
+    private boolean isDatabaseNotFound() {
+        DataSource dataSource = context.getBean(DataSource.class);
+
+        try {
+            dataSource.getConnection().close();
+        } catch (SQLException e) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showMainMenuScreen() {
+        StageController stageController = context.getBean(StageController.class);
+        stageController.setStage(stage);
+        stageController.showMainMenuScreen();
+        stage.setResizable(true);
+        stage.show();
+    }
 
 }

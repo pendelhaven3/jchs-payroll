@@ -12,13 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.pj.hrapp.dao.EmployeeAttendanceDao;
 import com.pj.hrapp.dao.EmployeeLoanPaymentRepository;
-import com.pj.hrapp.dao.EmployeeRepository;
 import com.pj.hrapp.dao.PayrollDao;
 import com.pj.hrapp.dao.PayslipAdjustmentDao;
 import com.pj.hrapp.dao.PayslipDao;
 import com.pj.hrapp.dao.SalaryDao;
-import com.pj.hrapp.dao.ValeProductRepository;
-import com.pj.hrapp.exception.ConnectToMagicException;
 import com.pj.hrapp.model.Attendance;
 import com.pj.hrapp.model.Employee;
 import com.pj.hrapp.model.EmployeeAttendance;
@@ -31,7 +28,6 @@ import com.pj.hrapp.model.PayslipAdjustmentType;
 import com.pj.hrapp.model.PhilHealthContributionTable;
 import com.pj.hrapp.model.SSSContributionTable;
 import com.pj.hrapp.model.Salary;
-import com.pj.hrapp.model.ValeProduct;
 import com.pj.hrapp.model.search.EmployeeAttendanceSearchCriteria;
 import com.pj.hrapp.model.search.PayslipAdjustmentSearchCriteria;
 import com.pj.hrapp.model.search.PayslipSearchCriteria;
@@ -41,7 +37,6 @@ import com.pj.hrapp.service.PayrollService;
 import com.pj.hrapp.service.PhilHealthService;
 import com.pj.hrapp.service.SSSService;
 import com.pj.hrapp.service.SystemService;
-import com.pj.hrapp.service.ValeProductService;
 import com.pj.hrapp.util.DateUtil;
 
 @Service
@@ -54,10 +49,7 @@ public class PayrollServiceImpl implements PayrollService {
 	@Autowired private EmployeeAttendanceDao employeeAttendanceDao;
 	@Autowired private SSSService sssService;
 	@Autowired private PhilHealthService philHealthService;
-	@Autowired private ValeProductRepository valeProductRepository;
 	@Autowired private EmployeeLoanPaymentRepository employeeLoanPaymentRepository;
-	@Autowired private ValeProductService valeProductService;
-	@Autowired private EmployeeRepository employeeRepository;
 	@Autowired private SystemService systemService;
 	@Autowired private EmployeeLoanService employeeLoanService;
 	
@@ -181,7 +173,6 @@ public class PayrollServiceImpl implements PayrollService {
 			payslip.setEffectiveSalaries(findEffectiveSalaries(payslip));
 			payslip.setAttendances(findAllEmployeeAttendances(payslip));
 			payslip.setLoanPayments(employeeLoanPaymentRepository.findAllByPayslip(payslip));
-			payslip.setValeProducts(valeProductRepository.findAllByPayslip(payslip));
 			payslip.setAdjustments(payslipAdjustmentDao.findAllByPayslip(payslip));
 		}
 		return payslip;
@@ -271,12 +262,6 @@ public class PayrollServiceImpl implements PayrollService {
 		payslipDao.delete(payslip);
 	}
 
-	@Transactional
-	@Override
-	public void delete(ValeProduct valeProduct) {
-		valeProductRepository.delete(valeProduct.getId());
-	}
-
 	@Override
 	public Payslip findAnyPayslipByEmployee(Employee employee) {
 		return payslipDao.findAnyPayslipByEmployee(employee);
@@ -285,20 +270,6 @@ public class PayrollServiceImpl implements PayrollService {
 	@Transactional
 	@Override
 	public void postPayroll(Payroll payroll) {
-		if (!canConnectToMagic()) {
-			throw new ConnectToMagicException();
-		}
-		
-		for (Payslip payslip : payroll.getPayslips()) {
-			List<ValeProduct> valeProducts = valeProductRepository.findAllByPayslip(payslip);
-			if (!valeProducts.isEmpty()) {
-				valeProductService.markValeProductsAsPaid(valeProducts);
-			}
-			
-			payslip.setPayType(payslip.getEmployee().getPayType());
-			payslipDao.save(payslip);
-		}
-		
 		payroll.setPosted(true);
 		payrollDao.save(payroll);
 		
@@ -313,20 +284,6 @@ public class PayrollServiceImpl implements PayrollService {
 				}
 			}
 		}
-	}
-
-	private boolean canConnectToMagic() {
-		try {
-			valeProductService.findUnpaidValeProductsByEmployee(findAnyEmployee());
-		} catch (ConnectToMagicException e) {
-			return false;
-		}
-		
-		return true;
-	}
-
-	private Employee findAnyEmployee() {
-		return employeeRepository.findAll().get(0);
 	}
 
     @Transactional

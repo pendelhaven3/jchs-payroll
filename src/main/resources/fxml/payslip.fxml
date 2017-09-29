@@ -121,7 +121,7 @@
 							</columns>
 						</TableView>
 					</Tab>
-					<Tab text="Loan Payments" closable="false">
+					<Tab text="Loan Payments" closable="false" disable="true">
 						<VBox alignment="center" spacing="10">
 							<AppTableView fx:id="loanPaymentsTable">
 								<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
@@ -152,35 +152,6 @@
 							<HBox alignment="center" spacing="10" fx:id="editLoanPaymentButtonsHBox">
 								<Button text="Add Loan Payment" onAction="#addLoanPayment" />
 								<Button text="Delete Loan Payment" onAction="#deleteLoanPayment" />
-							</HBox>
-						</VBox>
-					</Tab>
-					<Tab text="Vale Products" closable="false">
-						<VBox alignment="center" spacing="10">
-							<AppTableView fx:id="valeProductsTable">
-								<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-								<columns>
-									<TableColumn text="SI No.">
-										<cellValueFactory>
-											<AppPropertyValueFactory property="salesInvoiceNumber" />
-										</cellValueFactory>
-									</TableColumn>
-									<TableColumn text="Transaction Date">
-										<cellValueFactory>
-											<AppPropertyValueFactory property="transactionDate" />
-										</cellValueFactory>
-									</TableColumn>
-									<TableColumn text="Amount" styleClass="right">
-										<cellValueFactory>
-											<AppPropertyValueFactory property="amount" />
-										</cellValueFactory>
-									</TableColumn>
-								</columns>
-							</AppTableView>
-							
-							<HBox alignment="center" spacing="10" fx:id="editValeProductButtonsHBox">
-								<Button text="Add Vale Product" onAction="#addValeProduct" />
-								<Button text="Delete Vale Product" onAction="#deleteValeProduct" />
 							</HBox>
 						</VBox>
 					</Tab>

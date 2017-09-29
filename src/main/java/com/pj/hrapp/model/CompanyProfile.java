@@ -23,9 +23,9 @@ public class CompanyProfile {
 		// do nothing
 	}
 	
-	public CompanyProfile(long id) {
-		this.id = id;
-	}
+//	public CompanyProfile(long id) {
+//		this.id = id;
+//	}
 
 	public Long getId() {
 		return id;
