@@ -7,12 +7,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import com.jchs.payrollapp.gui.component.AppDatePicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.EmployeeAttendanceController" >
+		fx:controller="com.jchs.payrollapp.controller.EmployeeAttendanceController" >
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

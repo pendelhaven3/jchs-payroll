@@ -6,13 +6,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.ToolBar?>
-<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
-<?import com.pj.hrapp.gui.component.AppTableView?>
+<?import com.jchs.payrollapp.gui.component.AppPropertyValueFactory?>
+<?import com.jchs.payrollapp.gui.component.AppTableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.SSSContributionTableController" 
+		fx:controller="com.jchs.payrollapp.controller.SSSContributionTableController" 
 	alignment="center" spacing="10">
 	
 	<ToolBar>

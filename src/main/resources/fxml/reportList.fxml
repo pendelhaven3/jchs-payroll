@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.ReportListController">
+		fx:controller="com.jchs.payrollapp.controller.ReportListController">
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

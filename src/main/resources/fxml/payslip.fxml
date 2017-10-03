@@ -11,13 +11,13 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
+<?import com.jchs.payrollapp.gui.component.AppPropertyValueFactory?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Region?>
-<?import com.pj.hrapp.gui.component.AppTableView?>
+<?import com.jchs.payrollapp.gui.component.AppTableView?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.PayslipController" >
+		fx:controller="com.jchs.payrollapp.controller.PayslipController" >
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

@@ -11,7 +11,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.CompanyProfileController" >
+		fx:controller="com.jchs.payrollapp.controller.CompanyProfileController" >
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

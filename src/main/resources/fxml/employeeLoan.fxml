@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Text?>
-<?import com.pj.hrapp.gui.component.AppDatePicker?>
+<?import com.jchs.payrollapp.gui.component.AppDatePicker?>
 <?import javafx.geometry.Insets?>
-<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
+<?import com.jchs.payrollapp.gui.component.AppPropertyValueFactory?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<?import com.pj.hrapp.gui.component.AppTableView?>
+<?import com.jchs.payrollapp.gui.component.AppTableView?>
 <?import javafx.scene.layout.Region?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.EmployeeLoanController">
+		fx:controller="com.jchs.payrollapp.controller.EmployeeLoanController">
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

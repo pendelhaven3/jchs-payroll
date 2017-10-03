@@ -6,16 +6,16 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
-<?import com.pj.hrapp.gui.component.UppercaseTextField?>
+<?import com.jchs.payrollapp.gui.component.UppercaseTextField?>
 <?import javafx.scene.layout.GridPane?>
-<?import com.pj.hrapp.gui.component.AppDatePicker?>
-<?import com.pj.hrapp.gui.component.NumberTextField?>
+<?import com.jchs.payrollapp.gui.component.AppDatePicker?>
+<?import com.jchs.payrollapp.gui.component.NumberTextField?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.AddEditPayrollController" >
+		fx:controller="com.jchs.payrollapp.controller.AddEditPayrollController" >
 	<top>
 		<ToolBar>
 			<Button text="Back" onAction="#doOnBack" />

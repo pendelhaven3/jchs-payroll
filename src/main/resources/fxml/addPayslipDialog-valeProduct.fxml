@@ -8,8 +8,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TableColumn?>
-<?import com.pj.hrapp.gui.component.AppPropertyValueFactory?>
-<?import com.pj.hrapp.gui.component.SelectableTableView?>
+<?import com.jchs.payrollapp.gui.component.AppPropertyValueFactory?>
+<?import com.jchs.payrollapp.gui.component.SelectableTableView?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.geometry.Insets?>
 

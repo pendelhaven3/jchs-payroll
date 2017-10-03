@@ -6,10 +6,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.ToolBar?>
-<?import com.pj.hrapp.gui.component.AppTableView?>
+<?import com.jchs.payrollapp.gui.component.AppTableView?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" 
-		fx:controller="com.pj.hrapp.controller.EmployeeListController" 
+		fx:controller="com.jchs.payrollapp.controller.EmployeeListController" 
 	alignment="center">
 	
 	<ToolBar>
