@@ -37,6 +37,7 @@ import com.pj.hrapp.service.PayrollService;
 import com.pj.hrapp.service.PhilHealthService;
 import com.pj.hrapp.service.SSSService;
 import com.pj.hrapp.service.SystemService;
+import com.pj.hrapp.util.ApplicationUtil;
 import com.pj.hrapp.util.DateUtil;
 
 @Service
@@ -100,7 +101,11 @@ public class PayrollServiceImpl implements PayrollService {
 	}
 
 	private boolean shouldGenerateEmployeeAttendance(Employee employee, Date date) {
-		return !DateUtil.isSunday(date) && isEmployeeAttendanceNotYetGenerated(employee, date);
+	    if (!isEmployeeAttendanceNotYetGenerated(employee, date)) {
+	        return false;
+	    }
+	    
+	    return DateUtil.isSunday(date) ? ApplicationUtil.isSundayAWorkingDay() : true;
 	}
 
 	private boolean isEmployeeAttendanceNotYetGenerated(Employee employee, Date date) {
