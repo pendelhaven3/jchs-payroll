@@ -74,8 +74,8 @@ public class EmployeeController extends AbstractController {
 	@Override
 	public void updateDisplay() {
 		stageController.setTitle(getTitle());
-		payScheduleComboBox.getItems().setAll(PaySchedule.WEEKLY);
-		payScheduleComboBox.setValue(PaySchedule.WEEKLY);
+		payScheduleComboBox.getItems().setAll(PaySchedule.SEMIMONTHLY);
+		payScheduleComboBox.setValue(PaySchedule.SEMIMONTHLY);
 		payTypeComboBox.getItems().setAll(PayType.PER_DAY);
 		payTypeComboBox.setValue(PayType.PER_DAY);
 		
