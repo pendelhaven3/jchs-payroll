@@ -54,7 +54,7 @@
 			</HBox>
 			
 			<HBox alignment="center">
-				<Button text="Next" onAction="#switchToAddValeProductScreen" />
+				<Button text="Close" onAction="#close" />
 			</HBox>
 		</VBox>
 	</center>

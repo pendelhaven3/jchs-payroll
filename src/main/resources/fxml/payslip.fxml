@@ -121,7 +121,7 @@
 							</columns>
 						</TableView>
 					</Tab>
-					<Tab text="Loan Payments" closable="false" disable="true">
+					<Tab text="Loan Payments" closable="false">
 						<VBox alignment="center" spacing="10">
 							<AppTableView fx:id="loanPaymentsTable">
 								<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>

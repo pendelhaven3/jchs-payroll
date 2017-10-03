@@ -79,8 +79,7 @@ public class AddPayslipDialog extends AbstractDialog {
 			return;
 		}
 		
-//		switchToAddLoanPaymentsScreen();
-		close();
+		switchToAddLoanPaymentsScreen();
 	}
 	
 	private void switchToAddLoanPaymentsScreen() {
@@ -140,8 +139,14 @@ public class AddPayslipDialog extends AbstractDialog {
 		}
 		
 		ShowDialog.info("Loan payments saved");
+		close();
 	}
 
+	@FXML
+	public void close() {
+	    super.close();
+	}
+	
 	public Payslip getPayslip() {
 		return payslip;
 	}
