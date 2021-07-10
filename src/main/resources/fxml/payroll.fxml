@@ -23,6 +23,7 @@
 			<Button text="Back" onAction="#doOnBack" />
 			<Button text="Delete" onAction="#deletePayroll" fx:id="deletePayrollButton" />
 			<Button text="Generate Excel" onAction="#generateExcel" />
+            <Button text="Generate AUB Excel" onAction="#generateAubExcel" />
 		</ToolBar>
 	</top>
 	<center>

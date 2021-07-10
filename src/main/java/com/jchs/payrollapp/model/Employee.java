@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -206,6 +207,15 @@ public class Employee implements Comparable<Employee> {
 	
 	public String getFullName() {
 		return new StringBuilder().append(lastName).append(", ").append(firstName).toString();
+	}
+
+	public String getFullNameWithMiddleName() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(lastName).append(", ").append(firstName);
+		if (!StringUtils.isEmpty(middleName)) {
+			sb.append(" ").append(middleName);
+		}
+		return sb.toString();
 	}
 
 	public static Employee withId(long id) {

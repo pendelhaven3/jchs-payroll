@@ -24,6 +24,7 @@ import com.jchs.payrollapp.gui.component.ShowDialog;
 import com.jchs.payrollapp.model.Payroll;
 import com.jchs.payrollapp.model.Payslip;
 import com.jchs.payrollapp.service.PayrollService;
+import com.jchs.payrollapp.util.AubExcelGenerator;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.ExcelUtil;
 import com.jchs.payrollapp.util.FormatterUtil;
@@ -241,6 +242,42 @@ public class PayrollController extends AbstractController {
 		ShowDialog.info("SSS/PhilHealth/Pag-IBIG contributions generated");
 		updateDisplay();
 		*/
+	}
+	
+	@FXML 
+	public void generateAubExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        fileChooser.setInitialDirectory(Paths.get(System.getProperty("user.home"), "Desktop").toFile());
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Excel files", "*.xlsx"));
+        fileChooser.setInitialFileName(getAubExcelFilename());
+        File file = fileChooser.showSaveDialog(stageController.getStage());
+        if (file == null) {
+        	return;
+        }
+		
+		try (
+			Workbook workbook = new AubExcelGenerator().generate(payroll);
+			FileOutputStream out = new FileOutputStream(file);
+		) {
+			workbook.write(out);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			ShowDialog.unexpectedError();
+			return;
+		}
+		
+		if (ShowDialog.confirm("Excel file generated.\nDo you wish to open the file?")) {
+			ExcelUtil.openExcelFile(file);
+		}
+	}
+
+	private String getAubExcelFilename() {
+		return new StringBuilder()
+				.append("NetPay-Upload-")
+				.append(new SimpleDateFormat("YYYY.MM.dd").format(payroll.getPayDate()))
+				.append(".xlsx")
+				.toString();
 	}
 	
 }
