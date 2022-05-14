@@ -30,14 +30,22 @@
 					GridPane.columnIndex="0" GridPane.rowIndex="1" />
 				<TextField fx:id="rateField"
 					GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<Label text="Effective Date From"
+				<Label text="Pay Schedule"
+					GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<ComboBox fx:id="payScheduleComboBox"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<Label text="Pay Type"
 					GridPane.columnIndex="0" GridPane.rowIndex="3" />
-				<AppDatePicker fx:id="effectiveDateFromDatePicker"
+				<ComboBox fx:id="payTypeComboBox"
 					GridPane.columnIndex="1" GridPane.rowIndex="3" />
-				<Label text="Effective Date To"
+				<Label text="Effective Date From"
 					GridPane.columnIndex="0" GridPane.rowIndex="4" />
-				<AppDatePicker fx:id="effectiveDateToDatePicker"
+				<AppDatePicker fx:id="effectiveDateFromDatePicker"
 					GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				<Label text="Effective Date To"
+					GridPane.columnIndex="0" GridPane.rowIndex="5" />
+				<AppDatePicker fx:id="effectiveDateToDatePicker"
+					GridPane.columnIndex="1" GridPane.rowIndex="5" />
 			</GridPane>
 			<Button text="Save" onAction="#saveSalary" />
 		</VBox>

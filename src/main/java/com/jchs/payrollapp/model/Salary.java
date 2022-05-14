@@ -3,7 +3,10 @@ package com.jchs.payrollapp.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -26,6 +29,14 @@ public class Salary {
 	private Date effectiveDateFrom;
 	private Date effectiveDateTo;
 	private BigDecimal rate;
+	
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaySchedule paySchedule;
+    
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PayType payType;
 	
 	public Long getId() {
 		return id;
@@ -90,6 +101,22 @@ public class Salary {
 
 	public DateInterval getEffectivePeriod() {
 		return new DateInterval(effectiveDateFrom, effectiveDateTo);
+	}
+
+	public PaySchedule getPaySchedule() {
+		return paySchedule;
+	}
+
+	public void setPaySchedule(PaySchedule paySchedule) {
+		this.paySchedule = paySchedule;
+	}
+
+	public PayType getPayType() {
+		return payType;
+	}
+
+	public void setPayType(PayType payType) {
+		this.payType = payType;
 	}
 	
 }

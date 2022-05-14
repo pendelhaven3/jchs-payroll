@@ -11,6 +11,8 @@ import com.jchs.payrollapp.Parameter;
 import com.jchs.payrollapp.gui.component.AppDatePicker;
 import com.jchs.payrollapp.gui.component.ShowDialog;
 import com.jchs.payrollapp.model.Employee;
+import com.jchs.payrollapp.model.PaySchedule;
+import com.jchs.payrollapp.model.PayType;
 import com.jchs.payrollapp.model.Salary;
 import com.jchs.payrollapp.service.EmployeeService;
 import com.jchs.payrollapp.service.SalaryService;
@@ -32,11 +34,13 @@ public class SalaryController extends AbstractController {
 	@Autowired private EmployeeService employeeService;
 	@Autowired private SalaryService salaryService;
 	
-	@FXML ComboBox<Employee> employeeComboBox;
-	@FXML TextField rateField;
-	@FXML AppDatePicker effectiveDateFromDatePicker;
-	@FXML AppDatePicker effectiveDateToDatePicker;
+	@FXML private ComboBox<Employee> employeeComboBox;
+	@FXML private TextField rateField;
+	@FXML private AppDatePicker effectiveDateFromDatePicker;
+	@FXML private AppDatePicker effectiveDateToDatePicker;
 	@FXML private Button deleteButton;
+    @FXML private ComboBox<PaySchedule> payScheduleComboBox;
+    @FXML private ComboBox<PayType> payTypeComboBox;
 	
 	@Parameter private Salary salary;
 	
@@ -49,6 +53,8 @@ public class SalaryController extends AbstractController {
 		}
 		
 		employeeComboBox.getItems().setAll(employeeService.getAllEmployees());
+        payScheduleComboBox.getItems().setAll(PaySchedule.values());
+        payTypeComboBox.getItems().setAll(PayType.values());
 		
 		if (salary != null) {
 			salary = salaryService.getSalary(salary.getId());
@@ -58,11 +64,11 @@ public class SalaryController extends AbstractController {
 			if (salary.getEffectiveDateTo() != null) {
 				effectiveDateToDatePicker.setValue(DateUtil.toLocalDate(salary.getEffectiveDateTo()));
 			}
+	        payScheduleComboBox.setValue(salary.getPaySchedule());
+	        payTypeComboBox.setValue(salary.getPayType());
 			
 			deleteButton.setDisable(false);
 		}
-		
-		// TODO: Handle resigned employee
 		
 		employeeComboBox.requestFocus();
 	}
@@ -96,6 +102,8 @@ public class SalaryController extends AbstractController {
 		}
 		salary.setEmployee(employeeComboBox.getValue());
 		salary.setRate(NumberUtil.toBigDecimal(rateField.getText()));
+		salary.setPaySchedule(payScheduleComboBox.getValue());
+		salary.setPayType(payTypeComboBox.getValue());
 		salary.setEffectiveDateFrom(DateUtil.toDate(effectiveDateFromDatePicker.getValue()));
 		if (effectiveDateToDatePicker.getValue() != null) {
 			salary.setEffectiveDateTo(DateUtil.toDate(effectiveDateToDatePicker.getValue()));
@@ -133,6 +141,18 @@ public class SalaryController extends AbstractController {
 			return false;
 		}
 
+        if (isPayScheduleNotSpecified()) {
+            ShowDialog.error("Pay Schedule must be specified");
+            payScheduleComboBox.requestFocus();
+            return false;
+        }
+        
+        if (isPayTypeNotSpecified()) {
+            ShowDialog.error("Pay Type must be specified");
+            payTypeComboBox.requestFocus();
+            return false;
+        }
+        
 		if (isEffectiveDateFromNotSpecified()) {
 			ShowDialog.error("Effective Date From must be specified");
 			effectiveDateFromDatePicker.requestFocus();
@@ -188,6 +208,14 @@ public class SalaryController extends AbstractController {
 	private boolean isRateNotSpecified() {
 		return rateField.getText().isEmpty();
 	}
+
+    private boolean isPayScheduleNotSpecified() {
+        return payScheduleComboBox.getValue() == null;
+    }
+
+    private boolean isPayTypeNotSpecified() {
+        return payTypeComboBox.getValue() == null;
+    }
 
 	private boolean isEmployeeNotSpecified() {
 		return employeeComboBox.getValue() == null;
