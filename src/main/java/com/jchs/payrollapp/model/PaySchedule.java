@@ -2,7 +2,7 @@ package com.jchs.payrollapp.model;
 
 public enum PaySchedule {
 
-	WEEKLY("Weekly"), SEMIMONTHLY("Semimonthly"), MONTHLY("Monthly");
+	SEMIMONTHLY("Semimonthly"), WEEKLY("Weekly");
 
 	private String description;
 	

@@ -140,8 +140,6 @@ public class PayrollServiceImpl implements PayrollService {
 			philHealthContribution = philHealthContributionTable.getEmployeeShare(referenceCompensation);
 			break;
 		}
-		case MONTHLY:
-			return;
 		}
 		
 		BigDecimal pagibigContribution = systemService.getPagibigContributionValue();

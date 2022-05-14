@@ -38,8 +38,7 @@ public class AddEditPayrollController extends AbstractController {
 	@Override
 	public void updateDisplay() {
 		setTitle();
-		payScheduleComboBox.getItems().setAll(PaySchedule.SEMIMONTHLY);
-        payScheduleComboBox.setValue(PaySchedule.SEMIMONTHLY);
+		payScheduleComboBox.getItems().setAll(PaySchedule.values());
 		
 		if (payroll != null) {
 			payroll = payrollService.getPayroll(payroll.getId());
