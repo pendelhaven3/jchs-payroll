@@ -34,27 +34,17 @@
 			</TableColumn>
 			<TableColumn text="Pay Schedule">
 				<cellValueFactory>
-					<AppPropertyValueFactory property="employee.paySchedule" />
+					<AppPropertyValueFactory property="paySchedule" />
 				</cellValueFactory>
 			</TableColumn>
 			<TableColumn text="Pay Type">
 				<cellValueFactory>
-					<AppPropertyValueFactory property="employee.payType" />
+					<AppPropertyValueFactory property="payType" />
 				</cellValueFactory>
 			</TableColumn>
 			<TableColumn text="Rate" styleClass="right">
 				<cellValueFactory>
 					<AppPropertyValueFactory property="rate" />
-				</cellValueFactory>
-			</TableColumn>
-			<TableColumn text="Effective Date From" styleClass="center">
-				<cellValueFactory>
-					<AppPropertyValueFactory property="effectiveDateFrom" />
-				</cellValueFactory>
-			</TableColumn>
-			<TableColumn text="Effective Date To" styleClass="center">
-				<cellValueFactory>
-					<AppPropertyValueFactory property="effectiveDateTo" />
 				</cellValueFactory>
 			</TableColumn>
 		</columns>
