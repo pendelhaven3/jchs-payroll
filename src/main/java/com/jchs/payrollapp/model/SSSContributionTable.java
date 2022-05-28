@@ -4,48 +4,41 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import com.jchs.payrollapp.exception.NoMatchingSssContributionTableEntryException;
+import com.jchs.payrollapp.util.FormatterUtil;
+
+import lombok.Getter;
+
+@Getter
 public class SSSContributionTable {
 
 	public static final BigDecimal MINIMUM_COMPENSATION = new BigDecimal("1000");
 	
 	private List<SSSContributionTableEntry> entries = new ArrayList<>();
+    private List<SSSContributionTableEntry> householdEntries = new ArrayList<>();
 	
-	public SSSContributionTable(List<SSSContributionTableEntry> entries) {
-		this.entries = entries;
-	}
-
-	public boolean isComplete() {
-		sortEntriesByCompensationFrom();
-		
-		BigDecimal reference = MINIMUM_COMPENSATION;
-		for (int i = 0; i < entries.size(); i++) {
-			SSSContributionTableEntry entry = entries.get(i);
-			if (entry.getCompensationFrom().compareTo(reference) == 0) {
-				if (entry.isCompensationToSpecified()) {
-					reference = entry.getCompensationTo().add(new BigDecimal("0.01"));
-				} else {
-					return i == entries.size() - 1; // true if entry is last
-				}
-			} else {
-				return false;
-			}
-		}
-		return false;
+	public SSSContributionTable(List<SSSContributionTableEntry> allEntries) {
+	    for (SSSContributionTableEntry entry : allEntries) {
+	        if (entry.isHousehold()) {
+	            householdEntries.add(entry);
+	        } else {
+	            entries.add(entry);
+	        }
+	    }
 	}
 	
-	private void sortEntriesByCompensationFrom() {
-		Collections.sort(entries, (o1, o2) -> o1.getCompensationFrom().compareTo(o2.getCompensationFrom()));
-	}
-
-	public List<SSSContributionTableEntry> getEntries() {
-		return entries;
+	private void sortEntriesByCompensationFrom(List<SSSContributionTableEntry> entriesToSort) {
+		Collections.sort(entriesToSort, (o1, o2) -> o1.getCompensationFrom().compareTo(o2.getCompensationFrom()));
 	}
 
 	public boolean isValidEntry(SSSContributionTableEntry other) {
-		sortEntriesByCompensationFrom();
+	    List<SSSContributionTableEntry> entriesToCheck = other.isHousehold() ? householdEntries : entries;
+	    
+		sortEntriesByCompensationFrom(entriesToCheck);
 		
-		for (SSSContributionTableEntry entry : entries) {
+		for (SSSContributionTableEntry entry : entriesToCheck) {
 			if (entry.overlapsWith(other)) {
 				return false;
 			}
@@ -54,10 +47,53 @@ public class SSSContributionTable {
 	}
 
 	public BigDecimal getEmployeeContribution(BigDecimal compensation) {
-		return entries.stream()
-			.filter(entry -> entry.contains(compensation))
-			.findFirst()
-			.get().getEmployeeContribution();
+		return getEmployeeContribution(compensation, false);
 	}
 	
+	public BigDecimal getEmployeeContribution(BigDecimal compensation, boolean household) {
+	    List<SSSContributionTableEntry> entriesToCheck = household ? householdEntries : entries;
+	    
+	    Optional<SSSContributionTableEntry> matchingEntry = entriesToCheck.stream()
+            .filter(entry -> entry.contains(compensation))
+            .findFirst();
+	    
+	    if (matchingEntry.isPresent()) {
+	        return matchingEntry.get().getEmployeeContribution();
+	    } else {
+	        throw new NoMatchingSssContributionTableEntryException("No SSS contribution table entry defined for compensation " + FormatterUtil.formatAmount(compensation));
+	    }
+	}
+	
+    public BigDecimal getEmployerContribution(BigDecimal compensation, boolean household) {
+        List<SSSContributionTableEntry> entriesToCheck = household ? householdEntries : entries;
+        
+        return entriesToCheck.stream()
+            .filter(entry -> entry.contains(compensation))
+            .findFirst()
+            .get().getEmployerContribution();
+    }
+
+    public BigDecimal getEmployeeCompensation(BigDecimal compensation, boolean household) {
+        List<SSSContributionTableEntry> entriesToCheck = household ? householdEntries : entries;
+        
+        return entriesToCheck.stream()
+                .filter(entry -> entry.contains(compensation))
+                .findFirst()
+                .get().getEmployeeCompensation();
+    }
+
+	public BigDecimal getEmployeeProvidentFundContribution(BigDecimal compensation, boolean household) {
+	    List<SSSContributionTableEntry> entriesToCheck = household ? householdEntries : entries;
+	    
+	    Optional<SSSContributionTableEntry> matchingEntry = entriesToCheck.stream()
+            .filter(entry -> entry.contains(compensation))
+            .findFirst();
+	    
+	    if (matchingEntry.isPresent()) {
+	        return matchingEntry.get().getEmployeeProvidentFundContribution();
+	    } else {
+	        throw new NoMatchingSssContributionTableEntryException("No SSS contribution table entry defined for compensation " + FormatterUtil.formatAmount(compensation));
+	    }
+	}
+
 }

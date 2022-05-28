@@ -13,17 +13,12 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml" 
 		fx:controller="com.jchs.payrollapp.controller.SSSContributionTableController" 
-	alignment="center" spacing="10">
+	alignment="center">
 	
 	<ToolBar>
 		<Button text="Back" onAction="#doOnBack" />
 		<Button text="Add" onAction="#addEntry" />
 	</ToolBar>
-	
-	<HBox alignment="center">
-		<Label text="Table complete:" prefWidth="150" />
-		<Label fx:id="tableCompleteLabel" />
-	</HBox>
 	
 	<AppTableView fx:id="entriesTable" VBox.vgrow="always">
 		<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
@@ -33,16 +28,31 @@
 					<AppPropertyValueFactory property="compensationRangeAsString" />
 				</cellValueFactory>
 			</TableColumn>
-			<TableColumn text="EE" styleClass="center">
-				<cellValueFactory>
-					<AppPropertyValueFactory property="employeeContribution" />
-				</cellValueFactory>
-			</TableColumn>
 			<TableColumn text="ER" styleClass="center">
 				<cellValueFactory>
 					<AppPropertyValueFactory property="employerContribution" />
 				</cellValueFactory>
 			</TableColumn>
+			<TableColumn text="EE" styleClass="center">
+				<cellValueFactory>
+					<AppPropertyValueFactory property="employeeContribution" />
+				</cellValueFactory>
+			</TableColumn>
+			<TableColumn text="EC" styleClass="center">
+				<cellValueFactory>
+					<AppPropertyValueFactory property="employeeCompensation" />
+				</cellValueFactory>
+			</TableColumn>
+            <TableColumn text="Provident Fund ER" styleClass="center">
+                <cellValueFactory>
+                    <AppPropertyValueFactory property="employerProvidentFundContribution" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Provident Fund EE" styleClass="center">
+                <cellValueFactory>
+                    <AppPropertyValueFactory property="employeeProvidentFundContribution" />
+                </cellValueFactory>
+            </TableColumn>
 		</columns>
 	</AppTableView>
 	

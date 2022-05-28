@@ -1,5 +1,7 @@
 package com.jchs.payrollapp.controller;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.jchs.payrollapp.util.FormatterUtil;
 import com.jchs.payrollapp.util.NumberUtil;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 @Controller
@@ -30,11 +33,19 @@ public class SSSContributionTableEntryController extends AbstractController {
 	@FXML private TextField compensationToField;
 	@FXML private TextField employeeContributionField;
 	@FXML private TextField employerContributionField;
-	
-	@Parameter private SSSContributionTableEntry entry;
-	
-	@Override
-	public void updateDisplay() {
+    @FXML private TextField employeeCompensationField;
+	@FXML private TextField employerProvidentFundContributionField;
+    @FXML private TextField employeeProvidentFundContributionField;
+    @FXML private Label householdField;
+    
+    @Parameter private SSSContributionTableEntry entry;
+    
+    private boolean household;
+    
+    @Override
+    public void updateDisplay() {
+        household = "Y".equals(householdField.getText());
+        
 		setTitle();
 		
 		if (entry != null) {
@@ -47,17 +58,21 @@ public class SSSContributionTableEntryController extends AbstractController {
 			employerContributionField.setText(
 					entry.getEmployerContribution() != null ? 
 							FormatterUtil.formatAmount(entry.getEmployerContribution()) : null);
+            employeeCompensationField.setText(
+                    entry.getEmployeeCompensation() != null ? 
+                            FormatterUtil.formatAmount(entry.getEmployeeCompensation()) : null);
+			employerProvidentFundContributionField.setText(FormatterUtil.formatAmount(entry.getEmployerProvidentFundContribution()));
+			employeeProvidentFundContributionField.setText(FormatterUtil.formatAmount(entry.getEmployeeProvidentFundContribution()));
 		}
 		
 		compensationFromField.requestFocus();
 	}
 
 	private void setTitle() {
-		if (entry == null) {
-			stageController.setTitle("Add New SSS Contribution Table Entry");
-		} else {
-			stageController.setTitle("Edit SSS Contribution Table Entry");
-		}
+        String operationText = (entry == null) ? "Add New" : "Edit";
+        String householdText = (household) ? " For Household" : "";
+        
+        stageController.setTitle(MessageFormat.format("{0} SSS Contribution Table{1} Entry", operationText, householdText));
 	}
 
 	@FXML public void saveEntry() {
@@ -73,7 +88,17 @@ public class SSSContributionTableEntryController extends AbstractController {
 		entry.setCompensationTo(
 				isCompensationToSpecified() ? NumberUtil.toBigDecimal(compensationToField.getText()) : null);
 		entry.setEmployeeContribution(NumberUtil.toBigDecimal(employeeContributionField.getText()));
-		entry.setEmployerContribution(NumberUtil.toBigDecimal(employerContributionField.getText()));
+        entry.setEmployerContribution(NumberUtil.toBigDecimal(employerContributionField.getText()));
+		entry.setEmployeeCompensation(NumberUtil.toBigDecimal(employeeCompensationField.getText()));
+		
+		if (isEmployerProvidentFundContributionSpecified()) {
+	        entry.setEmployerProvidentFundContribution(NumberUtil.toBigDecimal(employerProvidentFundContributionField.getText()));
+		}
+		if (isEmployeeProvidentFundContributionSpecified()) {
+	        entry.setEmployeeProvidentFundContribution(NumberUtil.toBigDecimal(employeeProvidentFundContributionField.getText()));
+		}
+		
+		entry.setHousehold(household);
 		
 		try {
 			sssService.save(entry);
@@ -84,7 +109,7 @@ public class SSSContributionTableEntryController extends AbstractController {
 		}
 		
 		ShowDialog.info("SSS contribution table entry saved");
-		stageController.showSSSContributionTableScreen();
+        returnToSSSContributionTableScreen();
 	}
 
 	private boolean validateFields() {
@@ -129,7 +154,31 @@ public class SSSContributionTableEntryController extends AbstractController {
 			compensationFromField.requestFocus();
 			return false;
 		}
+
+        if (isEmployeeCompensationNotSpecified()) {
+            ShowDialog.error("Employee Compensation must be specified");
+            employeeCompensationField.requestFocus();
+            return false;
+        }
 		
+        if (isEmployeeCompensationNotAValidAmount()) {
+            ShowDialog.error("Employee Compensation must be a valid amount");
+            employeeCompensationField.requestFocus();
+            return false;
+        }
+        
+        if (isEmployerProvidentFundContributionSpecified() && isEmployerProvidentFundContributionNotAValidAmount()) {
+            ShowDialog.error("Employer Provident Fund Contribution must be a valid amount");
+            employerProvidentFundContributionField.requestFocus();
+            return false;
+        }
+        
+        if (isEmployeeProvidentFundContributionSpecified() && isEmployeeProvidentFundContributionNotAValidAmount()) {
+            ShowDialog.error("Employee Provident Fund Contribution must be a valid amount");
+            employeeProvidentFundContributionField.requestFocus();
+            return false;
+        }
+        
 		return true;
 	}
 
@@ -139,6 +188,7 @@ public class SSSContributionTableEntryController extends AbstractController {
 		other.setCompensationFrom(NumberUtil.toBigDecimal(compensationFromField.getText()));
 		other.setCompensationTo(
 				isCompensationToSpecified() ? NumberUtil.toBigDecimal(compensationToField.getText()) : null);
+		other.setHousehold(household);
 		
 		return !sssService.getSSSContributionTable().isValidEntry(other);
 	}
@@ -171,12 +221,36 @@ public class SSSContributionTableEntryController extends AbstractController {
 		return StringUtils.isEmpty(compensationFromField.getText());
 	}
 
+    private boolean isEmployeeCompensationNotSpecified() {
+        return StringUtils.isEmpty(employeeCompensationField.getText());
+    }
+
+    private boolean isEmployeeCompensationNotAValidAmount() {
+        return !NumberUtil.isAmount(employeeCompensationField.getText());
+    }
+    
+    private boolean isEmployerProvidentFundContributionNotAValidAmount() {
+        return !NumberUtil.isAmount(employerProvidentFundContributionField.getText());
+    }
+    
+    private boolean isEmployeeProvidentFundContributionNotAValidAmount() {
+        return !NumberUtil.isAmount(employeeProvidentFundContributionField.getText());
+    }
+    
+	private boolean isEmployerProvidentFundContributionSpecified() {
+		return !StringUtils.isEmpty(employerProvidentFundContributionField.getText());
+	}
+    
+	private boolean isEmployeeProvidentFundContributionSpecified() {
+		return !StringUtils.isEmpty(employeeProvidentFundContributionField.getText());
+	}
+    
 	@FXML public void cancel() {
-		stageController.showSSSContributionTableScreen();
+        returnToSSSContributionTableScreen();
 	}
 
 	@FXML public void doOnBack() {
-		stageController.showSSSContributionTableScreen();
+        returnToSSSContributionTableScreen();
 	}
 
 	@FXML public void deleteEntry() {
@@ -193,7 +267,11 @@ public class SSSContributionTableEntryController extends AbstractController {
 		}
 		
 		ShowDialog.info("SSS contribution table entry deleted");
-		stageController.showSSSContributionTableScreen();
+        returnToSSSContributionTableScreen();
 	}
 
+    private void returnToSSSContributionTableScreen() {
+        stageController.showSSSContributionTableScreen();
+    }
+	
 }

@@ -27,11 +27,9 @@ public class SSSContributionTableController extends AbstractController {
 	
 	@Override
 	public void updateDisplay() {
-	    stageController.setTitle("SSS Contribution Table");
+        stageController.setTitle("SSS Contribution Table");
 	    
 		SSSContributionTable sssContributionTable = sssService.getSSSContributionTable();
-		
-		tableCompleteLabel.setText(String.valueOf(sssContributionTable.isComplete()));
 		
 		entriesTable.setItems(FXCollections.observableList(sssContributionTable.getEntries()));
 		entriesTable.setOnMouseClicked(new DoubleClickEventHandler() {
