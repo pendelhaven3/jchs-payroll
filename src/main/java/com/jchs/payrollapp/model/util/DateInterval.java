@@ -23,6 +23,7 @@ public class DateInterval {
 
 	private Date dateFrom;
 	private Date dateTo;
+	private int numberOfDays;
 
 	public DateInterval(Date dateFrom, Date dateTo) {
 		this.dateFrom = dateFrom;
@@ -88,6 +89,26 @@ public class DateInterval {
 		return dates;
 	}
 	
+	public int getNumberOfDays() {
+	    if (dateTo == null) {
+	        throw new RuntimeException("Number of days cannot be computed when dateTo is null");
+	    }
+	    
+	    if (numberOfDays > 0) {
+	        return numberOfDays;
+	    }
+	    
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(dateFrom);
+	    Date date = dateFrom;
+	    while (date.compareTo(dateTo) <= 0) {
+	        numberOfDays++;
+	        cal.add(Calendar.DATE, 1);
+	        date = cal.getTime();
+	    }
+	    return numberOfDays;
+	}
+
 	public Date getDateFrom() {
 		return dateFrom;
 	}

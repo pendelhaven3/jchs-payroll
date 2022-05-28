@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jchs.payrollapp.dao.SalaryDao;
+import com.jchs.payrollapp.dao.SalaryRepository;
 import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.Salary;
 import com.jchs.payrollapp.model.search.SalarySearchCriteria;
@@ -18,6 +19,7 @@ import com.jchs.payrollapp.service.SalaryService;
 public class SalaryServiceImpl implements SalaryService {
 
 	@Autowired private SalaryDao salaryDao;
+	@Autowired private SalaryRepository salaryRepository;
 	
 	@Override
 	public List<Salary> getAllCurrentSalaries() {
@@ -50,5 +52,10 @@ public class SalaryServiceImpl implements SalaryService {
 	public List<Salary> searchSalaries(SalarySearchCriteria criteria) {
 		return salaryDao.search(criteria);
 	}
+
+    @Override
+    public Salary getCurrentSalary(Employee employee, Date currentDate) {
+        return salaryRepository.findCurrentSalary(employee, currentDate);
+    }
 	
 }

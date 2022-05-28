@@ -21,4 +21,6 @@ public interface SalaryService {
 	
 	List<Salary> searchSalaries(SalarySearchCriteria criteria);
 	
+	Salary getCurrentSalary(Employee employee, Date currentDate);
+	
 }
