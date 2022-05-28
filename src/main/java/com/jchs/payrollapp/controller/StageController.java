@@ -17,7 +17,6 @@ import com.jchs.payrollapp.model.EmployeeAttendance;
 import com.jchs.payrollapp.model.EmployeeLoan;
 import com.jchs.payrollapp.model.Payroll;
 import com.jchs.payrollapp.model.Payslip;
-import com.jchs.payrollapp.model.PhilHealthContributionTableEntry;
 import com.jchs.payrollapp.model.SSSContributionTableEntry;
 import com.jchs.payrollapp.model.Salary;
 import com.jchs.payrollapp.model.search.EmployeeSearchCriteria;
@@ -180,15 +179,6 @@ public class StageController {
 
 	public void showPhilHealthContributionTableScreen() {
 		loadSceneFromFXML("philHealthContributionTable");
-	}
-
-	public void addPhilHealthContributionTableEntryScreen() {
-		loadSceneFromFXML("philHealthContributionTableEntry");
-	}
-
-	public void showEditPhilHealthContributionTableEntryScreen(PhilHealthContributionTableEntry entry) {
-		loadSceneFromFXML("philHealthContributionTableEntry", 
-				Collections.singletonMap("entry", entry));
 	}
 
 	public void showEmployeeLoanListScreen() {

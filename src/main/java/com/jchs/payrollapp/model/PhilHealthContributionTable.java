@@ -1,75 +1,130 @@
 package com.jchs.payrollapp.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.math.RoundingMode;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public class PhilHealthContributionTable {
 
-	private List<PhilHealthContributionTableEntry> entries = new ArrayList<>();
+    private static final BigDecimal TWO = BigDecimal.valueOf(2);
+    private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    
+    @Id
+    private Long id;
+    
+    @Column(precision = 9, scale = 2, nullable = false)
+	private BigDecimal floor;
+    
+    @Column(precision = 9, scale = 2, nullable = false)
+	private BigDecimal ceiling;
+    
+    @Column(precision = 9, scale = 2, nullable = false)
+    private BigDecimal multiplier;
+    
+    @Column(precision = 9, scale = 0, nullable = false)
+    private BigDecimal householdMonthlyContribution;
+    
+    @Transient
+    private BigDecimal floorPremium;
+    
+    @Transient
+    private BigDecimal ceilingPremium;
+    
+    @Transient
+    private BigDecimal actualMultiplier;
+
+    public BigDecimal getEmployeeShare(BigDecimal salary) {
+    	return getEmployeeShare(salary, false);
+    }
+    
+    public BigDecimal getEmployeeShare(BigDecimal salary, boolean household) {
+        if (household) {
+            return householdMonthlyContribution.divide(BigDecimal.valueOf(2L));
+        }
+        
+        if (salary.compareTo(floor) <= 0) {
+            return getFloorPremium();
+        } else if (salary.compareTo(ceiling) >= 0) {
+            return getCeilingPremium();
+        } else {
+            return salary.multiply(multiplier.divide(ONE_HUNDRED)).divide(TWO, 2, RoundingMode.CEILING);
+        }
+    }
+    
+    private BigDecimal getFloorPremium() {
+        if (floorPremium == null) {
+            floorPremium = floor.multiply(multiplier.divide(ONE_HUNDRED)).divide(TWO, RoundingMode.CEILING);
+        }
+        return floorPremium;
+    }
 	
-	public PhilHealthContributionTable(List<PhilHealthContributionTableEntry> entries) {
-		this.entries = entries;
-	}
+    private BigDecimal getCeilingPremium() {
+        if (ceilingPremium == null) {
+            ceilingPremium = ceiling.multiply(multiplier.divide(ONE_HUNDRED)).divide(TWO, RoundingMode.CEILING);
+        }
+        return ceilingPremium;
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	public boolean isComplete() {
-		sortEntriesBySalaryFrom();
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PhilHealthContributionTable other = (PhilHealthContributionTable) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
 
-		if (entries.isEmpty()) {
-			return false;
-		}
-		
-		BigDecimal reference = BigDecimal.ZERO;
-		for (int i = 0; i < entries.size(); i++) {
-			PhilHealthContributionTableEntry entry = entries.get(i);
-			BigDecimal salaryFrom = entry.getSalaryFrom() != null ? entry.getSalaryFrom() : BigDecimal.ZERO;
-			
-			if (salaryFrom.compareTo(reference) == 0) {
-				if (entry.isSalaryToSpecified()) {
-					reference = entry.getSalaryTo().add(new BigDecimal("0.01"));
-				} else {
-					return i == entries.size() - 1; // true if entry is last
-				}
-			} else {
-				return false;
-			}
-		}
-		return false;
-	}
-	
-	private void sortEntriesBySalaryFrom() {
-		Collections.sort(entries, (o1, o2) -> {
-			if (o1.getSalaryFrom() == null) {
-				return -1;
-			} else if (o2.getSalaryFrom() == null) {
-				return 1;
-			} else {
-				return o1.getSalaryFrom().compareTo(o2.getSalaryFrom());	
-			}
-		});
-	}
+    public BigDecimal getFloor() {
+        return floor;
+    }
 
-	public List<PhilHealthContributionTableEntry> getEntries() {
-		return entries;
-	}
+    public void setFloor(BigDecimal floor) {
+        this.floor = floor;
+    }
 
-	public boolean isValidEntry(PhilHealthContributionTableEntry other) {
-		sortEntriesBySalaryFrom();
-		
-		for (PhilHealthContributionTableEntry entry : entries) {
-			if (entry.overlapsWith(other)) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public BigDecimal getCeiling() {
+        return ceiling;
+    }
 
-	public BigDecimal getEmployeeShare(BigDecimal salary) {
-		return entries.stream()
-			.filter(entry -> entry.contains(salary))
-			.findFirst()
-			.get().getEmployeeShare();
-	}
-	
+    public void setCeiling(BigDecimal ceiling) {
+        this.ceiling = ceiling;
+    }
+
+    public BigDecimal getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(BigDecimal multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public BigDecimal getHouseholdMonthlyContribution() {
+        return householdMonthlyContribution;
+    }
+
+    public void setHouseholdMonthlyContribution(BigDecimal householdMonthlyContribution) {
+        this.householdMonthlyContribution = householdMonthlyContribution;
+    }
+    
 }
