@@ -16,7 +16,7 @@ public class PayslipAdjustment {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Payslip payslip;
 	
 	@Enumerated(EnumType.STRING)
