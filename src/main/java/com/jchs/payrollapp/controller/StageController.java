@@ -104,7 +104,7 @@ public class StageController {
 	}
 	
 	public void setTitle(String title) {
-		stage.setTitle("JCHS Payroll App 1.3.1 - " + title);
+		stage.setTitle("JCHS Payroll App 1.3.2 - " + title);
 	}
 
 	public void showMainMenuScreen() {
