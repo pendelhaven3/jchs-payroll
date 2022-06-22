@@ -249,7 +249,7 @@ public class PayrollController extends AbstractController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
         fileChooser.setInitialDirectory(Paths.get(System.getProperty("user.home"), "Desktop").toFile());
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Excel files", "*.xlsx"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Excel files", "*.xls"));
         fileChooser.setInitialFileName(getAubExcelFilename());
         File file = fileChooser.showSaveDialog(stageController.getStage());
         if (file == null) {
@@ -276,7 +276,7 @@ public class PayrollController extends AbstractController {
 		return new StringBuilder()
 				.append("NetPay-Upload-")
 				.append(new SimpleDateFormat("YYYY.MM.dd").format(payroll.getPayDate()))
-				.append(".xlsx")
+				.append(".xls")
 				.toString();
 	}
 	
