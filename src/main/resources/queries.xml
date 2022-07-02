@@ -217,4 +217,32 @@ FROM (
 WHERE monthlyPay IS NOT NULL
 	]]>
 	</entry>
+	<entry name="monthlyPay2">
+<![CDATA[
+SELECT IFNULL(SUM(
+	(CASE payType 
+		WHEN 'PER_DAY' THEN rate
+		WHEN 'FIXED_RATE' THEN
+			(CASE paySchedule
+				WHEN 'WEEKLY' THEN rate / 6
+				WHEN 'SEMIMONTHLY' THEN rate / (CASE WHEN date < DATE_ADD(:firstDayOfMonth, INTERVAL 15 DAY) THEN :numberOfWorkingDaysInFirstHalf ELSE :numberOfWorkingDaysInSecondHalf END)
+			END)
+	END)
+), 0) AS monthlyPay
+FROM (
+	SELECT b.date, c.payType, c.paySchedule, c.rate * (CASE d.attendance WHEN 'WHOLE_DAY' THEN 1 WHEN 'HALF_DAY' THEN 0.5 ELSE 0 END) AS rate
+	FROM employee a
+	JOIN calendar b
+		ON b.date >= :firstDayOfMonth and b.date < DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH)
+	JOIN salary c
+		ON b.date >= c.effectiveDateFrom
+		AND (b.date <= c.effectiveDateTo OR c.effectiveDateTo IS NULL)
+		AND c.employee_id = a.id
+	JOIN employeeAttendance d
+		ON d.employee_id = a.id
+		AND d.date = b.date
+	WHERE a.id = :employeeId
+) z
+	]]>
+	</entry>
 </root>
