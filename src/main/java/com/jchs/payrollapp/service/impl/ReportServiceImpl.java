@@ -20,6 +20,7 @@ import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.BasicSalaryReportItem;
 import com.jchs.payrollapp.model.report.LatesReport;
+import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
 import com.jchs.payrollapp.service.ReportService;
 
@@ -99,6 +100,14 @@ public class ReportServiceImpl implements ReportService {
 		} else {
 			return employeeLoanPaymentRepository.findAllByPaymentDateBetween(from, to);
 		}
+	}
+
+	@Override
+	public PhilHealthReport generatePhilHealthReport(YearMonth yearMonth) {
+        PhilHealthReport report = new PhilHealthReport();
+        report.setYearMonth(yearMonth);
+        report.setItems(reportDao.getPhilHealthReportItems(yearMonth));
+        return report;
 	}
 	
 }

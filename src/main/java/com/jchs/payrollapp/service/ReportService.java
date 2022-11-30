@@ -8,6 +8,7 @@ import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.LatesReport;
+import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
 
 public interface ReportService {
@@ -19,5 +20,7 @@ public interface ReportService {
 	BasicSalaryReport generateBasicSalaryReport(Date from, Date to);
 	
 	List<EmployeeLoanPayment> generateEmployeeLoanPaymentsReport(Date from, Date to, EmployeeLoanType loanType);
+
+	PhilHealthReport generatePhilHealthReport(YearMonth yearMonth);
 	
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jchs.payrollapp.dao.ReportDao;
 import com.jchs.payrollapp.model.report.LatesReportItem;
+import com.jchs.payrollapp.model.report.PhilHealthReportItem;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReportItem;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.Queries;
@@ -53,6 +54,18 @@ public class ReportDaoImpl implements ReportDao {
 			.setResultTransformer(Transformers.aliasToBean(LatesReportItem.class));
 		
 		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PhilHealthReportItem> getPhilHealthReportItems(YearMonth yearMonth) {
+        Query query = entityManager.createNativeQuery(
+                Queries.getQuery("philHealthReport"), "philHealthReportItemMapping");
+        query.setParameter("firstDayOfMonth", DateUtil.toDate(yearMonth.atDay(1)));
+        query.setParameter("numberOfWorkingDaysInFirstHalf", DateUtil.getNumberOfWorkingDaysInFirstHalf(yearMonth));
+        query.setParameter("numberOfWorkingDaysInSecondHalf", DateUtil.getNumberOfWorkingDaysInSecondHalf(yearMonth));
+        query.setParameter("contributionMonth", DateUtil.toString(yearMonth));
+        return (List<PhilHealthReportItem>)query.getResultList();
 	}
 
 }

@@ -245,4 +245,8 @@ public class StageController {
 		loadSceneFromFXML("employeeLoanPaymentsReport");
 	}
 
+	public void showPhilHealthReportScreen() {
+        loadSceneFromFXML("philHealthReport");
+	}
+
 }

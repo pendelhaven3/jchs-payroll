@@ -19,6 +19,11 @@ public class ReportListController extends AbstractController {
 		stageController.showSSSPhilHealthReportScreen();
 	}
 
+    @FXML
+    public void goToPhilHealthReportScreen() {
+        stageController.showPhilHealthReportScreen();
+    }
+    
 	@FXML 
 	public void doOnBack() {
 		stageController.showMainMenuScreen();

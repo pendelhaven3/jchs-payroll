@@ -245,4 +245,60 @@ FROM (
 ) z
 	]]>
 	</entry>
+	<entry name="philHealthReport">
+	<![CDATA[
+SELECT 
+	CONCAT(d.lastName, ', ', d.firstName) AS employeeName,
+	d.philHealthNumber,
+	IFNULL(c.monthlyPay, 0) AS monthlyPay,
+	IFNULL(a.due, 0) AS due
+FROM employee d
+LEFT JOIN (
+	SELECT a.id AS employeeId, MAX(-d.amount) as due
+	FROM employee a
+	JOIN payslip b
+	  ON b.employee_id = a.id
+	JOIN payroll c
+	  ON c.id = b.payroll_id
+	LEFT JOIN payslipAdjustment d
+	  ON d.payslip_id = b.id
+	  AND d.type = 'PHILHEALTH'
+	WHERE (a.resignDate is null OR a.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
+	AND d.contributionMonth = :contributionMonth
+	GROUP BY a.ID
+) a
+	ON a.employeeId = d.id	
+LEFT JOIN (
+	SELECT id AS employeeId, IFNULL(SUM(
+		(CASE payType 
+			WHEN 'PER_DAY' THEN rate
+			WHEN 'FIXED_RATE' THEN
+				(CASE paySchedule
+					WHEN 'WEEKLY' THEN rate / 6
+					WHEN 'SEMIMONTHLY' THEN rate / (CASE WHEN date < DATE_ADD(:firstDayOfMonth, INTERVAL 15 DAY) THEN :numberOfWorkingDaysInFirstHalf ELSE :numberOfWorkingDaysInSecondHalf END)
+				END)
+		END)
+	), 0) AS monthlyPay
+	FROM (
+		SELECT a.id, b.date, c.payType, c.paySchedule, c.rate * (CASE d.attendance WHEN 'WHOLE_DAY' THEN 1 WHEN 'HALF_DAY' THEN 0.5 ELSE 0 END) AS rate
+		FROM employee a
+		JOIN calendar b
+			ON b.date >= :firstDayOfMonth
+			and b.date < DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH)
+		JOIN salary c
+			ON b.date >= c.effectiveDateFrom
+			AND (b.date <= c.effectiveDateTo OR c.effectiveDateTo IS NULL)
+			AND c.employee_id = a.id
+		JOIN employeeAttendance d
+			ON d.employee_id = a.id
+			AND d.date = b.date
+		WHERE (a.resignDate is null OR a.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
+	) z
+	GROUP BY id
+) c
+	ON c.employeeId = d.id
+WHERE (d.resignDate is null OR d.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
+ORDER BY d.lastName, d.firstName
+	]]>
+	</entry>
 </root>
