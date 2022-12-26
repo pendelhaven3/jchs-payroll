@@ -41,7 +41,13 @@ public class AubExcelGenerator {
 			cell = row.createCell(1, CellType.STRING);
 			cell.setCellValue(employee.getFullNameWithMiddleName());
 			
-			cell = row.createCell(2, CellType.NUMERIC);
+			cell = row.createCell(2, CellType.STRING);
+			cell.setCellValue(employee.getAccountNumber());
+			
+			cell = row.createCell(3, CellType.STRING);
+			cell.setCellValue(employee.getBankCode());
+			
+			cell = row.createCell(4, CellType.NUMERIC);
 			cell.setCellStyle(rightBorderedAmountCellStyle);
 			cell.setCellValue(payslip.getNetPay().doubleValue());
 			
