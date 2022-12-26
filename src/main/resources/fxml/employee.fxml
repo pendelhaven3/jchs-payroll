@@ -120,6 +120,14 @@
 												GridPane.columnIndex="0" GridPane.rowIndex="8" />
 											<AppDatePicker fx:id="dateResignedDatePicker"
 												GridPane.columnIndex="1" GridPane.rowIndex="8" />
+											<Label text="Account No."
+												GridPane.columnIndex="0" GridPane.rowIndex="9" />
+											<UppercaseTextField fx:id="accountNumberField"
+												GridPane.columnIndex="1" GridPane.rowIndex="9" />
+											<Label text="Bank Code"
+												GridPane.columnIndex="0" GridPane.rowIndex="10" />
+											<UppercaseTextField fx:id="bankCodeField"
+												GridPane.columnIndex="1" GridPane.rowIndex="10" />
 										</GridPane>
 									</HBox>
 								</VBox>

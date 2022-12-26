@@ -63,6 +63,8 @@ public class EmployeeController extends AbstractController {
 	@FXML private ComboBox<PayType> payTypeComboBox;
 	@FXML private CheckBox resignedCheckBox;
 	@FXML private DatePicker dateResignedDatePicker;
+	@FXML private TextField accountNumberField;
+	@FXML private TextField bankCodeField;
 	@FXML private Button deleteButton;
 	@FXML private ImageView employeePictureImageView;
 	@FXML private Button changePictureButton;
@@ -97,6 +99,8 @@ public class EmployeeController extends AbstractController {
 			payTypeComboBox.setValue(employee.getPayType());
 			resignedCheckBox.setSelected(employee.isResigned());
 			dateResignedDatePicker.setValue(DateUtil.toLocalDate(employee.getResignDate()));
+			accountNumberField.setText(employee.getAccountNumber());
+			bankCodeField.setText(employee.getBankCode());
 			remarksTextArea.setText(employee.getRemarks());
 			deleteButton.setDisable(false);
 			
@@ -168,6 +172,8 @@ public class EmployeeController extends AbstractController {
 		employee.setPayType(payTypeComboBox.getValue());
 		employee.setResigned(resignedCheckBox.isSelected());
 		employee.setResignDate(DateUtil.toDate(dateResignedDatePicker.getValue()));
+		employee.setAccountNumber(accountNumberField.getText());
+		employee.setBankCode(bankCodeField.getText());
 		employee.setRemarks(remarksTextArea.getText());
 		try {
 			employeeService.save(employee);

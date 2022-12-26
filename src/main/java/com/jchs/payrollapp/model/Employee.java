@@ -13,7 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Employee implements Comparable<Employee> {
 
 	@Id
@@ -35,6 +40,12 @@ public class Employee implements Comparable<Employee> {
 	private String pagibigNumber;
 	private String tin;
 	private Date hireDate;
+	
+	@Column(length = 50)
+	private String accountNumber;
+	
+	@Column(length = 50)
+	private String bankCode;
 	
 	@Enumerated(EnumType.STRING)
 	private PaySchedule paySchedule;
