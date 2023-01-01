@@ -7,6 +7,7 @@ import java.util.List;
 import com.jchs.payrollapp.model.report.LatesReportItem;
 import com.jchs.payrollapp.model.report.PhilHealthReportItem;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReportItem;
+import com.jchs.payrollapp.model.report.SSSReportItem;
 
 public interface ReportDao {
 
@@ -15,5 +16,7 @@ public interface ReportDao {
 	List<LatesReportItem> getLatesReportItems(Date from, Date dateTo);
 
 	List<PhilHealthReportItem> getPhilHealthReportItems(YearMonth yearMonth);
+
+	List<SSSReportItem> getSSSReportItems(YearMonth yearMonth);
 
 }

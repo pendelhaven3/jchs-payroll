@@ -22,6 +22,7 @@ import com.jchs.payrollapp.model.report.BasicSalaryReportItem;
 import com.jchs.payrollapp.model.report.LatesReport;
 import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
+import com.jchs.payrollapp.model.report.SSSReport;
 import com.jchs.payrollapp.service.ReportService;
 
 @Service
@@ -107,6 +108,14 @@ public class ReportServiceImpl implements ReportService {
         PhilHealthReport report = new PhilHealthReport();
         report.setYearMonth(yearMonth);
         report.setItems(reportDao.getPhilHealthReportItems(yearMonth));
+        return report;
+	}
+
+	@Override
+	public SSSReport generateSSSReport(YearMonth yearMonth) {
+        SSSReport report = new SSSReport();
+        report.setYearMonth(yearMonth);
+        report.setItems(reportDao.getSSSReportItems(yearMonth));
         return report;
 	}
 	
