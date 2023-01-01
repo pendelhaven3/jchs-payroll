@@ -126,9 +126,7 @@ public class PhilHealthReportController extends AbstractController {
             return;
         }
         
-        if (ShowDialog.confirm("Excel file generated.\nDo you wish to open the file?")) {
-            ExcelUtil.openExcelFile(file);
-        }
+        ExcelUtil.openExcelFile(file);
     }
 
     private String getExcelFilename() {
