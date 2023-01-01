@@ -366,4 +366,31 @@ WHERE (d.resignDate is null OR d.resignDate >= DATE_ADD(:firstDayOfMonth, INTERV
 ORDER BY d.lastName, d.firstName
 	]]>
 	</entry>
+	<entry name="pagIbigReport">
+	<![CDATA[
+SELECT 
+	CONCAT(d.lastName, ', ', d.firstName) AS employeeName,
+	d.pagIbigNumber,
+	IFNULL(a.employeeContribution, 0) AS employeeContribution,
+	IFNULL(a.employerContribution, 0) AS employerContribution
+FROM employee d
+LEFT JOIN (
+	SELECT a.id AS employeeId, MAX(-d.amount) as employeeContribution, 100 as employerContribution
+	FROM employee a
+	JOIN payslip b
+	  ON b.employee_id = a.id
+	JOIN payroll c
+	  ON c.id = b.payroll_id
+	LEFT JOIN payslipAdjustment d
+	  ON d.payslip_id = b.id
+	  AND d.type = 'PAGIBIG'
+	WHERE (a.resignDate is null OR a.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
+	AND d.contributionMonth = :contributionMonth
+	GROUP BY a.ID
+) a
+	ON a.employeeId = d.id
+WHERE (d.resignDate is null OR d.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
+ORDER BY d.lastName, d.firstName
+	]]>
+	</entry>
 </root>

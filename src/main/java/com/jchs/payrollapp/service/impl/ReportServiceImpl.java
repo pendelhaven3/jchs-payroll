@@ -20,6 +20,7 @@ import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.BasicSalaryReportItem;
 import com.jchs.payrollapp.model.report.LatesReport;
+import com.jchs.payrollapp.model.report.PagIbigReport;
 import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSReport;
@@ -116,6 +117,14 @@ public class ReportServiceImpl implements ReportService {
         SSSReport report = new SSSReport();
         report.setYearMonth(yearMonth);
         report.setItems(reportDao.getSSSReportItems(yearMonth));
+        return report;
+	}
+
+	@Override
+	public PagIbigReport generatePagIbigReport(YearMonth yearMonth) {
+        PagIbigReport report = new PagIbigReport();
+        report.setYearMonth(yearMonth);
+        report.setItems(reportDao.getPagIbigReportItems(yearMonth));
         return report;
 	}
 	
