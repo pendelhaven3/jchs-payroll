@@ -14,11 +14,6 @@ public class ReportListController extends AbstractController {
 		stageController.setTitle("Report List");
 	}
 
-	@FXML 
-	public void goToSSSPhilHealthReportScreen() {
-		stageController.showSSSPhilHealthReportScreen();
-	}
-
     @FXML
     public void goToPhilHealthReportScreen() {
         stageController.showPhilHealthReportScreen();

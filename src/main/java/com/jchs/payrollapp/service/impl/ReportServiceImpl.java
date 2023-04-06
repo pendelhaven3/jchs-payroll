@@ -22,7 +22,6 @@ import com.jchs.payrollapp.model.report.BasicSalaryReportItem;
 import com.jchs.payrollapp.model.report.LatesReport;
 import com.jchs.payrollapp.model.report.PagIbigReport;
 import com.jchs.payrollapp.model.report.PhilHealthReport;
-import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSReport;
 import com.jchs.payrollapp.service.ReportService;
 
@@ -34,13 +33,6 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired private SalaryDao salaryDao;
 	@Autowired private EmployeeLoanPaymentRepository employeeLoanPaymentRepository;
 	
-	@Override
-	public SSSPhilHealthReport generateSSSPhilHealthReport(YearMonth yearMonth) {
-		SSSPhilHealthReport report = new SSSPhilHealthReport();
-		report.setItems(reportDao.getSSSPhilHealthReportItems(yearMonth));
-		return report;
-	}
-
 	@Override
 	public LatesReport generateLatesReport(Date from, Date to) {
 		LatesReport report = new LatesReport();

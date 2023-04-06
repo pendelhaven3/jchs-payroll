@@ -2,39 +2,18 @@ package com.jchs.payrollapp.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SqlResultSetMapping;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.jchs.payrollapp.model.report.SSSPhilHealthReportItem;
 import com.jchs.payrollapp.model.util.AmountInterval;
 import com.jchs.payrollapp.util.FormatterUtil;
 
 import lombok.Getter;
 import lombok.Setter;
-
-// TODO: Find better place for this!
-@SqlResultSetMapping(name = "sssPhilHealthReportItemMapping",
-	classes = {
-	    @ConstructorResult(targetClass = SSSPhilHealthReportItem.class, columns = {
-	        @ColumnResult(name = "employeeFullName"),
-	        @ColumnResult(name = "employeeNickname"),
-	        @ColumnResult(name = "sssEmployeeContribution"),
-	        @ColumnResult(name = "sssEmployerContribution"),
-	        @ColumnResult(name = "monthlyPay"),
-	        @ColumnResult(name = "pagibigContribution"),
-            @ColumnResult(name = "sssNumber"),
-            @ColumnResult(name = "philHealthNumber")
-	    })
-	}
-)
 
 @Entity
 @Getter

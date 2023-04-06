@@ -10,12 +10,9 @@ import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.LatesReport;
 import com.jchs.payrollapp.model.report.PagIbigReport;
 import com.jchs.payrollapp.model.report.PhilHealthReport;
-import com.jchs.payrollapp.model.report.SSSPhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSReport;
 
 public interface ReportService {
-
-	SSSPhilHealthReport generateSSSPhilHealthReport(YearMonth yearMonth);
 
 	LatesReport generateLatesReport(Date from, Date to);
 

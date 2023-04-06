@@ -18,7 +18,6 @@ import com.jchs.payrollapp.dao.ReportDao;
 import com.jchs.payrollapp.model.report.LatesReportItem;
 import com.jchs.payrollapp.model.report.PagIbigReportItem;
 import com.jchs.payrollapp.model.report.PhilHealthReportItem;
-import com.jchs.payrollapp.model.report.SSSPhilHealthReportItem;
 import com.jchs.payrollapp.model.report.SSSReportItem;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.Queries;
@@ -29,20 +28,6 @@ public class ReportDaoImpl implements ReportDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<SSSPhilHealthReportItem> getSSSPhilHealthReportItems(YearMonth yearMonth) {
-		Query query = entityManager.createNativeQuery(
-				Queries.getQuery("sssPhilHealthReport"), "sssPhilHealthReportItemMapping");
-		query.setParameter("month", yearMonth.getMonth().getValue());
-		query.setParameter("year", yearMonth.getYear());
-		query.setParameter("firstDayOfMonth", DateUtil.toDate(yearMonth.atDay(1)));
-		query.setParameter("numberOfWorkingDaysInFirstHalf", DateUtil.getNumberOfWorkingDaysInFirstHalf(yearMonth));
-		query.setParameter("numberOfWorkingDaysInSecondHalf", DateUtil.getNumberOfWorkingDaysInSecondHalf(yearMonth));
-		query.setParameter("contributionMonth", DateUtil.toString(yearMonth));
-		return query.getResultList();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LatesReportItem> getLatesReportItems(Date dateFrom, Date dateTo) {

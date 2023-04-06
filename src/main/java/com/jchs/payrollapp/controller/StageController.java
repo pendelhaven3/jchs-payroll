@@ -209,10 +209,6 @@ public class StageController {
 		loadSceneFromFXML("reportList");
 	}
 
-	public void showSSSPhilHealthReportScreen() {
-		loadSceneFromFXML("sssPhilHealthReport");
-	}
-
 	public void updateSalaryListScreenHistoryItemModel(Map<String, Object> model) {
 		history.updateHistoryItemModel("salaryList", model);
 	}
