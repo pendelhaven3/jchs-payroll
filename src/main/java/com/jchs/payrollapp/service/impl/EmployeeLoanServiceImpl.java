@@ -18,15 +18,19 @@ import com.jchs.payrollapp.exception.EmployeeAlreadyResignedException;
 import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.EmployeeLoan;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
+import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.Payslip;
 import com.jchs.payrollapp.model.search.EmployeeLoanSearchCriteria;
 import com.jchs.payrollapp.service.EmployeeLoanService;
+import com.jchs.payrollapp.exception.EmployeeLoanTypeUsedException;
+import com.jchs.payrollapp.dao.EmployeeLoanTypeRepository;
 
 @Service
 public class EmployeeLoanServiceImpl implements EmployeeLoanService {
 
 	@Autowired private EmployeeLoanRepository employeeLoanRepository;
 	@Autowired private EmployeeLoanPaymentRepository employeeLoanPaymentRepository;
+	@Autowired private EmployeeLoanTypeRepository employeeLoanTypeRepository;
 	
 	@Override
 	public List<EmployeeLoan> findAllUnpaidEmployeeLoans() {
@@ -145,6 +149,30 @@ public class EmployeeLoanServiceImpl implements EmployeeLoanService {
 		criteria.setPaymentDate(paymentDate);
 		
 		return searchEmployeeLoans(criteria);
+	}
+
+	@Override
+	public List<EmployeeLoanType> getAllEmployeeLoanTypes() {
+		return employeeLoanTypeRepository.findAllByOrderByDescriptionAsc();
+	}
+
+	@Override
+	public EmployeeLoanType findEmployeeLoanType(Long id) {
+		return employeeLoanTypeRepository.findOne(id);
+	}
+
+	@Override
+	public void save(EmployeeLoanType loanType) {
+		employeeLoanTypeRepository.save(loanType);
+	}
+
+	@Override
+	public void delete(EmployeeLoanType loanType) {
+		if (employeeLoanRepository.findFirstByLoanType(loanType) != null) {
+			throw new EmployeeLoanTypeUsedException();
+		}
+		
+		employeeLoanTypeRepository.delete(loanType);
 	}
 
 }

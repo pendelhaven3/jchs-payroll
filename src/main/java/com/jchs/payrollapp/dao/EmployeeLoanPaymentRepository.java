@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.jchs.payrollapp.model.EmployeeLoan;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
+import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.Payslip;
 
 public interface EmployeeLoanPaymentRepository extends JpaRepository<EmployeeLoanPayment, Long> {
@@ -27,6 +28,11 @@ public interface EmployeeLoanPaymentRepository extends JpaRepository<EmployeeLoa
 			+ " order by p.paymentDate, p.loan.employee.lastName, p.loan.employee.firstName, p.loan.description")
 	List<EmployeeLoanPayment> findAllByPaymentDateBetweenAndLoanDescription(
 			@Param("from") Date from, @Param("to") Date to, @Param("loanDescription") String loanDescription);
-	
+
+	@Query("select p from EmployeeLoanPayment p where p.paymentDate between :from and :to"
+			+ " and p.loan.loanType = :loanType"
+			+ " order by p.paymentDate, p.loan.employee.lastName, p.loan.employee.firstName, p.loan.description")
+	List<EmployeeLoanPayment> findAllByPaymentDateBetweenAndLoanType(
+			@Param("from") Date from, @Param("to") Date to, @Param("loanType") EmployeeLoanType loanType);
 
 }

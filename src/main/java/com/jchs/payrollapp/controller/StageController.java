@@ -15,6 +15,7 @@ import com.jchs.payrollapp.Parameter;
 import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.EmployeeAttendance;
 import com.jchs.payrollapp.model.EmployeeLoan;
+import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.Payroll;
 import com.jchs.payrollapp.model.Payslip;
 import com.jchs.payrollapp.model.SSSContributionTableEntry;
@@ -197,6 +198,18 @@ public class StageController {
 		loadSceneFromFXML("employeeLoan", Collections.singletonMap("loan", loan));
 	}
 
+	public void showEmployeeLoanTypeListScreen() {
+		loadSceneFromFXML("employeeLoanTypeList");
+	}
+
+	public void showAddEmployeeLoanTypeScreen() {
+		loadSceneFromFXML("addEditEmployeeLoanType");
+	}
+
+	public void showUpdateEmployeeLoanTypeScreen(EmployeeLoanType loanType) {
+		loadSceneFromFXML("addEditEmployeeLoanType", Collections.singletonMap("loanType", loanType));
+	}
+
 	public void showEmployeeAttendanceListScreen() {
 		loadSceneFromFXML("employeeAttendanceList");
 	}
@@ -252,5 +265,9 @@ public class StageController {
     public void showPagIbigReportScreen() {
         loadSceneFromFXML("pagIbigReport");
     }
+
+	public void showSssLoanPaymentsReportScreen() {
+        loadSceneFromFXML("sssLoanPaymentsReport");
+	}
 
 }

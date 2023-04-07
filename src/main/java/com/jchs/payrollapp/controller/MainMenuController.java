@@ -35,6 +35,11 @@ public class MainMenuController extends AbstractController {
 	public void goToEmployeeLoanList() {
 		stageController.showEmployeeLoanListScreen();
 	}
+	
+	@FXML
+	public void goToEmployeeLoanTypeList() {
+		stageController.showEmployeeLoanTypeListScreen();
+	}
 
 	@FXML 
 	public void goToEmployeeAttendanceList() {

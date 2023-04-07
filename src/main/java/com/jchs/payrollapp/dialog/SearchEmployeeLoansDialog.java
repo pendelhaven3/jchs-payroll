@@ -7,6 +7,7 @@ import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.search.EmployeeLoanSearchCriteria;
 import com.jchs.payrollapp.service.EmployeeService;
+import com.jchs.payrollapp.service.EmployeeLoanService;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.ComboBox;
 public class SearchEmployeeLoansDialog extends AbstractDialog {
 
 	@Autowired private EmployeeService employeeService;
+	@Autowired private EmployeeLoanService employeeLoanService;
 	
 	@FXML private ComboBox<Employee> employeeComboBox;
 	@FXML private ComboBox<EmployeeLoanType> loanTypeComboBox;
@@ -32,7 +34,7 @@ public class SearchEmployeeLoansDialog extends AbstractDialog {
 	protected void updateDisplay() {
 		searchCriteria = null;
 		employeeComboBox.setItems(FXCollections.observableList(employeeService.getAllEmployees()));
-		loanTypeComboBox.setItems(FXCollections.observableArrayList(EmployeeLoanType.values()));
+		loanTypeComboBox.getItems().addAll(employeeLoanService.getAllEmployeeLoanTypes());
 		paidComboBox.setItems(FXCollections.observableArrayList("Paid", "Not Paid"));
 	}
 

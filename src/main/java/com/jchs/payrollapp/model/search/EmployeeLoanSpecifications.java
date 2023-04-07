@@ -15,16 +15,7 @@ public class EmployeeLoanSpecifications extends BaseSpecifications {
 	}
 	
 	public static Specification<EmployeeLoan> withLoanType(EmployeeLoanType loanType) {
-		switch (loanType) {
-		case COMPANY:
-			return (root, query, builder) -> builder.equal(builder.upper(root.get("description")), "CO LOAN");
-		case SSS:
-			return (root, query, builder) -> builder.equal(builder.upper(root.get("description")), "SSS LOAN");
-		case PAGIBIG:
-			return (root, query, builder) -> builder.equal(builder.upper(root.get("description")), "PAGIBIG LOAN");
-		default:
-			return null;
-		}
+		return (root, query, builder) -> builder.equal(root.get("loanType"), loanType);
 	}
 
 	public static Specification<EmployeeLoan> withPaid(Boolean paid) {

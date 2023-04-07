@@ -15,8 +15,8 @@ import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.service.ReportService;
 import com.jchs.payrollapp.util.DateUtil;
+import com.jchs.payrollapp.service.EmployeeLoanService;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
@@ -25,6 +25,7 @@ import javafx.scene.control.ComboBox;
 public class EmployeeLoanPaymentsReportController extends AbstractController {
 
 	@Autowired private ReportService reportService;
+	@Autowired private EmployeeLoanService employeeLoanService;
 	
 	@FXML private AppDatePicker fromDateDatePicker;
 	@FXML private AppDatePicker toDateDatePicker;
@@ -34,7 +35,7 @@ public class EmployeeLoanPaymentsReportController extends AbstractController {
 	@Override
 	public void updateDisplay() {
 		stageController.setTitle("Employee Loan Payments Report");
-		loanTypeComboBox.setItems(FXCollections.observableArrayList(EmployeeLoanType.values()));
+		loanTypeComboBox.getItems().addAll(employeeLoanService.getAllEmployeeLoanTypes());
 	}
 
 	@FXML 

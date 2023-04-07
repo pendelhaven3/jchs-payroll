@@ -12,13 +12,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.jchs.payrollapp.util.FormatterUtil;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class EmployeeLoan {
 
 	@Id
@@ -31,8 +37,12 @@ public class EmployeeLoan {
 	@Column(columnDefinition = "date")
 	private Date loanDate;
 	
+	@OneToOne
+	private EmployeeLoanType loanType;
+	
 	private String description;
 	private BigDecimal amount;
+	private BigDecimal loanAmount;
 	private Integer numberOfPayments;
 	private String remarks;
 
@@ -45,70 +55,6 @@ public class EmployeeLoan {
 	@Column(columnDefinition = "date")
 	private Date paymentStartDate;
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public Integer getNumberOfPayments() {
-		return numberOfPayments;
-	}
-
-	public void setNumberOfPayments(Integer numberOfPayments) {
-		this.numberOfPayments = numberOfPayments;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public List<EmployeeLoanPayment> getPayments() {
-		return payments;
-	}
-
-	public void setPayments(List<EmployeeLoanPayment> payments) {
-		this.payments = payments;
-	}
-
-	public Date getLoanDate() {
-		return loanDate;
-	}
-
-	public void setLoanDate(Date loanDate) {
-		this.loanDate = loanDate;
-	}
-
 	public BigDecimal getPaymentAmount() {
 		return amount.divide(new BigDecimal(numberOfPayments), 2, RoundingMode.HALF_UP);
 	}
@@ -161,14 +107,6 @@ public class EmployeeLoan {
 		}
 	}
 	
-	public boolean isPaid() {
-		return paid;
-	}
-
-	public void setPaid(boolean paid) {
-		this.paid = paid;
-	}
-
 	public String getPaymentStatus() {
 		if (paid) {
 			return "Paid";
