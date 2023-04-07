@@ -24,6 +24,7 @@
 			<!--
 			<Button text="Employee Loan Payments Report" onAction="#goToEmployeeLoanPaymentsReportScreen" />
 			-->
+			<Button text="SSS Loan Payments Report" onAction="#goToSssLoanPaymentsReportScreen" />
 		</VBox>
 	</center>
 </BorderPane>
