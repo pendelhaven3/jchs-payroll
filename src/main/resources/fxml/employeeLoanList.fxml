@@ -32,6 +32,11 @@
 					<AppPropertyValueFactory property="employee.nickname" />
 				</cellValueFactory>
 			</TableColumn>
+            <TableColumn text="Loan Type" styleClass="center">
+                <cellValueFactory>
+                    <AppPropertyValueFactory property="loanType" />
+                </cellValueFactory>
+            </TableColumn>
 			<TableColumn text="Loan Description" styleClass="center">
 				<cellValueFactory>
 					<AppPropertyValueFactory property="description" />

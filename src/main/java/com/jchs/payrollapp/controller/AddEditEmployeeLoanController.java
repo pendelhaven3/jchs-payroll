@@ -22,6 +22,7 @@ import com.jchs.payrollapp.service.EmployeeService;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.FormatterUtil;
 import com.jchs.payrollapp.util.NumberUtil;
+import com.jchs.payrollapp.model.EmployeeLoanType;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,8 +41,10 @@ public class AddEditEmployeeLoanController extends AbstractController {
 	@Autowired private EmployeeLoanService employeeLoanService;
 	
 	@FXML private ComboBox<Employee> employeeComboBox;
+	@FXML private ComboBox<EmployeeLoanType> loanTypeComboBox;
 	@FXML private TextField descriptionField;
 	@FXML private TextField amountField;
+    @FXML private TextField loanAmountField;
 	@FXML private DatePicker loanDateDatePicker;
 	@FXML private TextField numberOfPaymentsField;
 	@FXML private TextField paymentAmountField;
@@ -55,14 +58,17 @@ public class AddEditEmployeeLoanController extends AbstractController {
 	public void updateDisplay() {
 		setTitle();
 		employeeComboBox.getItems().setAll(employeeService.getAllActiveEmployees());
+		loanTypeComboBox.getItems().setAll(employeeLoanService.getAllEmployeeLoanTypes());
 		updatePaymentAmountWhenLoanAmountChanges();
 		updatePaymentAmountWhenNumberOfPaymentsChanges();
 		
 		if (loan != null) {
 			loan = employeeLoanService.findEmployeeLoan(loan.getId());
 			employeeComboBox.setValue(loan.getEmployee());
+			loanTypeComboBox.setValue(loan.getLoanType());
 			descriptionField.setText(loan.getDescription());
 			amountField.setText(FormatterUtil.formatAmount(loan.getAmount()));
+            loanAmountField.setText(FormatterUtil.formatAmount(loan.getLoanAmount()));
 			loanDateDatePicker.setValue(DateUtil.toLocalDate(loan.getLoanDate()));
 			numberOfPaymentsField.setText(loan.getNumberOfPayments().toString());
 			paymentAmountField.setText(FormatterUtil.formatAmount(loan.getPaymentAmount()));
@@ -140,8 +146,10 @@ public class AddEditEmployeeLoanController extends AbstractController {
 			loan = new EmployeeLoan();
 		}
 		loan.setEmployee(employeeComboBox.getValue());
+		loan.setLoanType(loanTypeComboBox.getValue());
 		loan.setDescription(descriptionField.getText());
 		loan.setAmount(NumberUtil.toBigDecimal(amountField.getText()));
+        loan.setLoanAmount(NumberUtil.toBigDecimal(loanAmountField.getText()));
 		loan.setLoanDate(DateUtil.toDate(loanDateDatePicker.getValue()));
 		loan.setNumberOfPayments(Integer.valueOf(numberOfPaymentsField.getText()));
 		loan.setPaymentStartDate(DateUtil.toDate(paymentStartDatePicker.getValue()));
@@ -169,6 +177,12 @@ public class AddEditEmployeeLoanController extends AbstractController {
 			return false;
 		}
 		
+		if (isLoanTypeNotSpecified()) {
+			ShowDialog.error("Loan Type must be specified");
+			loanTypeComboBox.requestFocus();
+			return false;
+		}
+		
 		if (isDescriptionNotSpecified()) {
 			ShowDialog.error("Loan Description must be specified");
 			descriptionField.requestFocus();
@@ -186,6 +200,12 @@ public class AddEditEmployeeLoanController extends AbstractController {
 			amountField.requestFocus();
 			return false;
 		}
+
+        if (!StringUtils.isEmpty(loanAmountField.getText()) && isLoanAmountNotValid()) {
+            ShowDialog.error("Loan Amount must be a valid amount");
+            loanAmountField.requestFocus();
+            return false;
+        }
 
 		if (isLoanDateNotSpecified()) {
 			ShowDialog.error("Loan Date must be specified");
@@ -220,6 +240,10 @@ public class AddEditEmployeeLoanController extends AbstractController {
 		return true;
 	}
 
+	private boolean isLoanTypeNotSpecified() {
+		return loanTypeComboBox.getValue() == null;
+	}
+
 	private boolean isDescriptionNotSpecified() {
 		return StringUtils.isEmpty(descriptionField.getText());
 	}
@@ -251,6 +275,10 @@ public class AddEditEmployeeLoanController extends AbstractController {
 	private boolean isAmountNotSpecified() {
 		return StringUtils.isEmpty(amountField.getText());
 	}
+
+    private boolean isLoanAmountNotValid() {
+        return !NumberUtil.isAmount(loanAmountField.getText());
+    }
 
 	private boolean isEmployeeNotSpecified() {
 		return employeeComboBox.getValue() == null;

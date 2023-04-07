@@ -35,21 +35,25 @@
 						GridPane.columnIndex="0" GridPane.rowIndex="0" />
 					<Label fx:id="employeeLabel"
 						GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label text="Loan Type"
+                        GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label fx:id="loanTypeLabel"
+                        GridPane.columnIndex="1" GridPane.rowIndex="1" />
 					<Label text="Loan Description"
-						GridPane.columnIndex="0" GridPane.rowIndex="1" />
-					<Label fx:id="descriptionLabel"
-						GridPane.columnIndex="1" GridPane.rowIndex="1" />
-					<Label text="Amount"
 						GridPane.columnIndex="0" GridPane.rowIndex="2" />
-					<Label fx:id="amountLabel"
+					<Label fx:id="descriptionLabel"
 						GridPane.columnIndex="1" GridPane.rowIndex="2" />
-					<Label text="Loan Date"
+					<Label text="Amount"
 						GridPane.columnIndex="0" GridPane.rowIndex="3" />
-					<Label fx:id="loanDateLabel"
+					<Label fx:id="amountLabel"
 						GridPane.columnIndex="1" GridPane.rowIndex="3" />
+					<Label text="Loan Date"
+						GridPane.columnIndex="0" GridPane.rowIndex="4" />
+					<Label fx:id="loanDateLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="4" />
 				</GridPane>
 		
-				<GridPane vgap="10" alignment="center">
+				<GridPane vgap="10" alignment="top_center" >
 					<Label text="Number of Payments" prefWidth="200"
 						GridPane.columnIndex="0" GridPane.rowIndex="0" />
 					<Label fx:id="numberOfPaymentsLabel"
@@ -68,22 +72,19 @@
 						GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				</GridPane>
 				
-				<GridPane vgap="10" alignment="center">
-					<Label text="Paid" prefWidth="100"
+				<GridPane vgap="10" alignment="top_center">
+					<Label text="Paid" prefWidth="150"
 						GridPane.columnIndex="0" GridPane.rowIndex="0" />
 					<Label fx:id="paidLabel"
 						GridPane.columnIndex="1" GridPane.rowIndex="0" />
-					<Region
-						GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.vgrow="always" />
-				</GridPane>
-			</HBox>
-			
-			<HBox alignment="center" spacing="100">
-				<GridPane vgap="10" alignment="center">
+					<Label text="Loan Amount"
+						GridPane.columnIndex="0" GridPane.rowIndex="1" />
+					<Label fx:id="loanAmountLabel"
+						GridPane.columnIndex="1" GridPane.rowIndex="1" />
 					<Label text="Remarks" prefWidth="150" GridPane.valignment="top"
-						GridPane.columnIndex="0" GridPane.rowIndex="0" />
+						GridPane.columnIndex="0" GridPane.rowIndex="2" />
 					<Text fx:id="remarksText"
-						GridPane.columnIndex="1" GridPane.rowIndex="0" />
+						GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				</GridPane>
 			</HBox>
 			
