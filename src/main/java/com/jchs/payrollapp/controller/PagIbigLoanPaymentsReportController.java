@@ -22,12 +22,12 @@ import com.jchs.payrollapp.gui.component.AppTableView;
 import com.jchs.payrollapp.gui.component.ShowDialog;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
+import com.jchs.payrollapp.report.excel.PagIbigLoanPaymentsReportExcelGenerator;
 import com.jchs.payrollapp.service.EmployeeLoanService;
 import com.jchs.payrollapp.service.ReportService;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.ExcelUtil;
 import com.jchs.payrollapp.util.FormatterUtil;
-import com.jchs.payrollapp.util.PagIbigLoanPaymentsReportExcelGenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

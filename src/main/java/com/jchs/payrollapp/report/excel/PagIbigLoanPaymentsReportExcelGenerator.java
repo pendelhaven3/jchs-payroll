@@ -1,4 +1,4 @@
-package com.jchs.payrollapp.util;
+package com.jchs.payrollapp.report.excel;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.time.YearMonth;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -18,7 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
 
-public class SSSLoanPaymentsReportExcelGenerator {
+public class PagIbigLoanPaymentsReportExcelGenerator {
 
     private Row row;
     private Cell cell;
@@ -32,11 +33,11 @@ public class SSSLoanPaymentsReportExcelGenerator {
         Workbook workbook = new XSSFWorkbook();
         
         Sheet sheet = workbook.createSheet();
-        sheet.setColumnWidth(0, 256 * 30);
-        sheet.setColumnWidth(1, 256 * 15);
+        sheet.setColumnWidth(0, 256 * 18);
+        sheet.setColumnWidth(1, 256 * 30);
         sheet.setColumnWidth(2, 256 * 15);
         sheet.setColumnWidth(3, 256 * 15);
-        sheet.setColumnWidth(4, 256 * 19);
+        sheet.setColumnWidth(4, 256 * 15);
         
         createStyles(workbook);
         
@@ -65,7 +66,7 @@ public class SSSLoanPaymentsReportExcelGenerator {
         cell.setCellValue(getReportCode(loanType, yearMonth));
 	}
 
-	private void createStyles(Workbook workbook) {
+    private void createStyles(Workbook workbook) {
         numberStyle = workbook.createCellStyle();
         numberStyle.setDataFormat((short)4);
         
@@ -89,45 +90,43 @@ public class SSSLoanPaymentsReportExcelGenerator {
     private void addHeaders() {
         cell = row.createCell(0);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("Employee");
+        cell.setCellValue("Pag-IBIG No.");
         
         cell = row.createCell(1);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("SSS No.");
+        cell.setCellValue("Employee");
         
         cell = row.createCell(2);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("Loan Date");
+        cell.setCellValue("Amortization");
         
         cell = row.createCell(3);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("Amount of Loan");
+        cell.setCellValue("TIN");
         
         cell = row.createCell(4);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("Monthly Amortization");
+        cell.setCellValue("Date of Birth");
     }
 
     private void addDataRows(List<EmployeeLoanPayment> items) {
         for (EmployeeLoanPayment item : items) {
             cell = row.createCell(0);
-            cell.setCellValue(item.getLoan().getEmployee().getFullName());
+            cell.setCellValue(item.getLoan().getEmployee().getPagibigNumber());
             
             cell = row.createCell(1);
-            cell.setCellValue(item.getLoan().getEmployee().getSssNumber());
+            cell.setCellValue(item.getLoan().getEmployee().getFullName());
             
             cell = row.createCell(2);
-            cell.setCellStyle(dateStyle);
-            cell.setCellValue(item.getLoan().getLoanDate());
-            
-            cell = row.createCell(3);
-            cell.setCellStyle(numberStyle);
-            // TODO:
-//            cell.setCellValue(item.getLoan().getLoanAmount().doubleValue()); 
-            
-            cell = row.createCell(4);
             cell.setCellStyle(numberStyle);
             cell.setCellValue(item.getLoan().getPaymentAmount().doubleValue());
+            
+            cell = row.createCell(3);
+            cell.setCellValue(item.getLoan().getEmployee().getTin());
+            
+            cell = row.createCell(4);
+            cell.setCellStyle(dateStyle);
+            cell.setCellValue(item.getLoan().getEmployee().getBirthday());
             
             nextRow();
         }
@@ -142,21 +141,19 @@ public class SSSLoanPaymentsReportExcelGenerator {
         cell.setCellStyle(boldStyle);
         cell.setCellValue("Total");
         
-        cell = row.createCell(4);
+        cell = row.createCell(2);
         cell.setCellStyle(numberBoldStyle);
         cell.setCellValue(items.stream().map(item -> item.getAmount()).reduce(BigDecimal.ZERO, (x,y) -> x.add(y)).doubleValue());
-    }
+    }    
     
 	private String getReportCode(EmployeeLoanType loanType, YearMonth yearMonth) {
 		int month = yearMonth.getMonthValue();
 		int year = yearMonth.getYear();
 		
-		return "";
-		// TODO:
-//		return MessageFormat.format("{0} PAYMENTS REPORT_{1}_{2}",
-//				loanType.getDescription().toUpperCase(),
-//				StringUtils.leftPad(String.valueOf(month), 2, '0'),
-//				String.valueOf(year));
+		return MessageFormat.format("{0} PAYMENTS REPORT_{1}_{2}",
+				loanType.getDescription().toUpperCase(),
+				StringUtils.leftPad(String.valueOf(month), 2, '0'),
+				String.valueOf(year));
 	}
     
 }

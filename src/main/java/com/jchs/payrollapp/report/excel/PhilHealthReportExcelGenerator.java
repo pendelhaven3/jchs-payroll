@@ -1,6 +1,7 @@
-package com.jchs.payrollapp.util;
+package com.jchs.payrollapp.report.excel;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.jchs.payrollapp.model.CompanyProfile;
-import com.jchs.payrollapp.model.report.SSSReport;
-import com.jchs.payrollapp.model.report.SSSReportItem;
+import com.jchs.payrollapp.model.report.PhilHealthReport;
+import com.jchs.payrollapp.model.report.PhilHealthReportItem;
 
-public class SSSReportExcelGenerator {
+public class PhilHealthReportExcelGenerator {
 
     private Row row;
     private Cell cell;
@@ -27,7 +28,7 @@ public class SSSReportExcelGenerator {
     private CellStyle headerStyle;
     private CellStyle boldStyle;
     
-    public Workbook generate(SSSReport report, CompanyProfile companyProfile) throws IOException {
+    public Workbook generate(PhilHealthReport report, CompanyProfile companyProfile) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         
         Sheet sheet = workbook.createSheet();
@@ -35,9 +36,6 @@ public class SSSReportExcelGenerator {
         sheet.setColumnWidth(1, 256 * 15);
         sheet.setColumnWidth(2, 256 * 12);
         sheet.setColumnWidth(3, 256 * 10);
-        sheet.setColumnWidth(4, 256 * 10);
-        sheet.setColumnWidth(5, 256 * 10);
-        sheet.setColumnWidth(6, 256 * 8);
         
         createStyles(workbook);
         
@@ -54,7 +52,7 @@ public class SSSReportExcelGenerator {
         nextRow();
         
         cell = row.createCell(0);
-        cell.setCellValue(companyProfile.getSssNumber());
+        cell.setCellValue(companyProfile.getPhilhealthNumber());
         
         nextRow();
         nextRow();
@@ -66,12 +64,27 @@ public class SSSReportExcelGenerator {
         addDataRows(report.getItems());
         
         nextRow();
+        nextRow();
         
-        addTotalRow(report);
+        cell = row.createCell(0);
+        cell.setCellStyle(boldStyle);
+        cell.setCellValue("Grand Total");
+        
+        cell = row.createCell(3);
+        cell.setCellStyle(numberBoldStyle);
+        cell.setCellValue(report.getTotalDue().doubleValue());
+        
+        cell = row.createCell(4);
+        cell.setCellStyle(numberBoldStyle);
+        cell.setCellValue(report.getTotalDue().doubleValue());
+        
+        cell = row.createCell(5);
+        cell.setCellStyle(numberBoldStyle);
+        cell.setCellValue(report.getTotalDue().multiply(BigDecimal.valueOf(2L)).doubleValue());
         
         return workbook;
     }
-
+    
     private void createStyles(Workbook workbook) {
         numberStyle = workbook.createCellStyle();
         numberStyle.setDataFormat((short)4);
@@ -97,7 +110,7 @@ public class SSSReportExcelGenerator {
         
         cell = row.createCell(1);
         cell.setCellStyle(headerStyle);
-        cell.setCellValue("SSS No.");
+        cell.setCellValue("PhilHealth No.");
         
         cell = row.createCell(2);
         cell.setCellStyle(headerStyle);
@@ -114,26 +127,10 @@ public class SSSReportExcelGenerator {
         cell = row.createCell(5);
         cell.setCellStyle(headerStyle);
         cell.setCellValue("Total");
-        
-        cell = row.createCell(6);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("EC");
-        
-        cell = row.createCell(7);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("PF EE");
-        
-        cell = row.createCell(8);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("PF ER");
-        
-        cell = row.createCell(9);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("Total PF");
     }
 
-    private void addDataRows(List<SSSReportItem> items) {
-        SSSReportItem item = null;
+    private void addDataRows(List<PhilHealthReportItem> items) {
+        PhilHealthReportItem item = null;
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
             
@@ -141,7 +138,7 @@ public class SSSReportExcelGenerator {
             cell.setCellValue(item.getEmployeeName());
             
             cell = row.createCell(1);
-            cell.setCellValue(item.getSssNumber());
+            cell.setCellValue(item.getPhilHealthNumber());
             
             cell = row.createCell(2);
             cell.setCellStyle(numberStyle);
@@ -149,83 +146,29 @@ public class SSSReportExcelGenerator {
             
             cell = row.createCell(3);
             cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getEmployeeContribution().doubleValue());
+            cell.setCellValue(item.getDue().doubleValue());
             
             cell = row.createCell(4);
             cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getEmployerContribution().doubleValue());
+            cell.setCellValue(item.getDue().doubleValue());
             
             cell = row.createCell(5);
             cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getTotalContribution().doubleValue());
-            
-            cell = row.createCell(6);
-            cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getEmployeeCompensation().doubleValue());
-            
-            cell = row.createCell(7);
-            cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getEmployeeProvidentFundContribution().doubleValue());
-            
-            cell = row.createCell(8);
-            cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getEmployerProvidentFundContribution().doubleValue());
-            
-            cell = row.createCell(9);
-            cell.setCellStyle(numberStyle);
-            cell.setCellValue(item.getTotalProvidentFundContribution().doubleValue());
+            cell.setCellValue(item.getDue().multiply(BigDecimal.valueOf(2L)).doubleValue());
             
             nextRow();
         }
     }
     
-    private void addTotalRow(SSSReport report) {
-        cell = row.createCell(0);
-        cell.setCellStyle(boldStyle);
-        cell.setCellValue("Total");
-        
-        cell = row.createCell(2);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalMonthlyPay().doubleValue());
-        
-        cell = row.createCell(3);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalEmployeeContribution().doubleValue());
-        
-        cell = row.createCell(4);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalEmployerContribution().doubleValue());
-        
-        cell = row.createCell(5);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalContribution().doubleValue());
-        
-        cell = row.createCell(6);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalEmployeeCompensation().doubleValue());
-        
-        cell = row.createCell(7);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalEmployeeProvidentFundContribution().doubleValue());
-        
-        cell = row.createCell(8);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalEmployerProvidentFundContribution().doubleValue());
-        
-        cell = row.createCell(9);
-        cell.setCellStyle(numberBoldStyle);
-        cell.setCellValue(report.getTotalProvidentFundContribution().doubleValue());
-    }
-
     private void nextRow() {
         row = row.getSheet().createRow(row.getRowNum() + 1);
     }
     
-	private String getReportCode(SSSReport report) {
+	private String getReportCode(PhilHealthReport report) {
 		int month = report.getYearMonth().getMonthValue();
 		int year = report.getYearMonth().getYear();
 		
-		return MessageFormat.format("SSS REPORT_{0}_{1}",
+		return MessageFormat.format("PHILHEALTH REPORT_{0}_{1}",
 				StringUtils.leftPad(String.valueOf(month), 2, '0'),
 				String.valueOf(year));
 	}

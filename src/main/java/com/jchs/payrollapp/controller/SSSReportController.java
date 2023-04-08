@@ -16,12 +16,12 @@ import com.jchs.payrollapp.gui.component.AppTableView;
 import com.jchs.payrollapp.gui.component.ShowDialog;
 import com.jchs.payrollapp.model.report.SSSReport;
 import com.jchs.payrollapp.model.report.SSSReportItem;
+import com.jchs.payrollapp.report.excel.SSSReportExcelGenerator;
 import com.jchs.payrollapp.service.ReportService;
 import com.jchs.payrollapp.service.SystemService;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.ExcelUtil;
 import com.jchs.payrollapp.util.FormatterUtil;
-import com.jchs.payrollapp.util.SSSReportExcelGenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

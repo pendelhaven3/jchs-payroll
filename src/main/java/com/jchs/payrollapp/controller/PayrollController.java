@@ -23,12 +23,12 @@ import com.jchs.payrollapp.gui.component.AppTableView;
 import com.jchs.payrollapp.gui.component.ShowDialog;
 import com.jchs.payrollapp.model.Payroll;
 import com.jchs.payrollapp.model.Payslip;
+import com.jchs.payrollapp.report.excel.AubExcelGenerator;
+import com.jchs.payrollapp.report.excel.PayrollToExcelGenerator;
 import com.jchs.payrollapp.service.PayrollService;
-import com.jchs.payrollapp.util.AubExcelGenerator;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.ExcelUtil;
 import com.jchs.payrollapp.util.FormatterUtil;
-import com.jchs.payrollapp.util.PayrollToExcelGenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
