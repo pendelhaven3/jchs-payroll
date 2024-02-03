@@ -49,6 +49,11 @@ public class ReportListController extends AbstractController {
         stageController.showPagIbigReportScreen();
     }
     
+	@FXML 
+	public void goToPayrollReportScreen() {
+		stageController.showPayrollReportScreen();
+	}
+
     @FXML
     public void goToSssLoanPaymentsReportScreen() {
         stageController.showSssLoanPaymentsReportScreen();

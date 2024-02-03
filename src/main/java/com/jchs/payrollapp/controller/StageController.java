@@ -274,4 +274,8 @@ public class StageController {
         loadSceneFromFXML("pagIbigLoanPaymentsReport");
 	}
 
+	public void showPayrollReportScreen() {
+		loadSceneFromFXML("payrollReport");
+	}
+
 }

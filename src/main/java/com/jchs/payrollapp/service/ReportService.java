@@ -4,11 +4,13 @@ import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 
+import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
 import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.LatesReport;
 import com.jchs.payrollapp.model.report.PagIbigReport;
+import com.jchs.payrollapp.model.report.PayrollReport;
 import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.SSSReport;
 
@@ -26,4 +28,6 @@ public interface ReportService {
 
 	PagIbigReport generatePagIbigReport(YearMonth yearMonth);
 	
+	PayrollReport generatePayrollReport(YearMonth yearMonthCriteria, Employee employee);
+
 }

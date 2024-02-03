@@ -7,6 +7,9 @@ import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Transient;
+
+import com.jchs.payrollapp.model.Employee;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +17,10 @@ import lombok.Setter;
 @SqlResultSetMapping(name = "sssReportItemMapping", 
     classes = {
         @ConstructorResult(targetClass = SSSReportItem.class, columns = {
+            @ColumnResult(name = "employeeId", type = Long.class),
+            @ColumnResult(name = "employeeFirstName"),
+            @ColumnResult(name = "employeeLastName"),
+            @ColumnResult(name = "employeeTin"),
             @ColumnResult(name = "employeeName"),
             @ColumnResult(name = "sssNumber"),
             @ColumnResult(name = "monthlyPay", type = BigDecimal.class),
@@ -34,6 +41,9 @@ public class SSSReportItem {
     @Id
     private Long id;
     
+    @Transient
+    private Employee employee;
+    
     private String employeeName;
     private String sssNumber;
     private BigDecimal monthlyPay;
@@ -45,10 +55,25 @@ public class SSSReportItem {
  
     public SSSReportItem() { }
 
-    public SSSReportItem(String employeeName, String sssNumber, BigDecimal monthlyPay, BigDecimal employeeContribution,
-            BigDecimal employerContribution, BigDecimal employeeCompensation,
-            BigDecimal employeeProvidentFundContribution, BigDecimal employerProvidentFundContribution
+    public SSSReportItem(
+    		Long employeeId,
+    		String employeeFirstName,
+    		String employeeLastName,
+    		String employeeTin,
+    		String employeeName,
+    		String sssNumber,
+    		BigDecimal monthlyPay,
+    		BigDecimal employeeContribution,
+            BigDecimal employerContribution,
+            BigDecimal employeeCompensation,
+            BigDecimal employeeProvidentFundContribution,
+            BigDecimal employerProvidentFundContribution
     ) {
+    	this.employee = new Employee(employeeId);
+    	employee.setFirstName(employeeFirstName);
+    	employee.setLastName(employeeLastName);
+    	employee.setTin(employeeTin);
+    	
         this.employeeName = employeeName;
         this.sssNumber = sssNumber;
         this.monthlyPay = monthlyPay;

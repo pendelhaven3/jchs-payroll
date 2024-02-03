@@ -17,6 +17,7 @@
 			<Button text="SSS Report" onAction="#goToSSSReportScreen" />
 			<Button text="PhilHealth Report" onAction="#goToPhilHealthReportScreen" />
 			<Button text="Pag-IBIG Report" onAction="#goToPagIbigReportScreen" />
+			<Button text="Payroll Report" onAction="#goToPayrollReportScreen" />
 			<!-- 
 			<Button text="Lates Report" onAction="#goToLatesReportScreen" />
 			-->

@@ -42,12 +42,6 @@ public class PhilHealthReportController extends AbstractController {
     @FXML private ComboBox<Month> monthComboBox;
     @FXML private ComboBox<Integer> yearComboBox;
     @FXML private AppTableView<PhilHealthReportItem> itemsTable;
-    @FXML private Label totalCompanyEmployeeContributionField;
-    @FXML private Label totalCompanyEmployerContributionField;
-    @FXML private Label totalCompanyContributionField;
-    @FXML private Label totalCompanyEmployeeContributionField2;
-    @FXML private Label totalCompanyEmployerContributionField2;
-    @FXML private Label totalCompanyContributionField2;
     @FXML private Label totalEmployeeContributionField;
     @FXML private Label totalEmployerContributionField;
     @FXML private Label totalContributionField;
@@ -80,12 +74,6 @@ public class PhilHealthReportController extends AbstractController {
             ShowDialog.error("No records found");
         }
         
-        totalCompanyEmployeeContributionField.setText(FormatterUtil.formatAmount(report.getTotalDue()));
-        totalCompanyEmployerContributionField.setText(totalCompanyEmployeeContributionField.getText());
-        totalCompanyContributionField.setText(FormatterUtil.formatAmount(report.getTotalDue().multiply(BigDecimal.valueOf(2L))));
-        totalCompanyEmployeeContributionField2.setText(totalCompanyEmployeeContributionField.getText());
-        totalCompanyEmployerContributionField2.setText(totalCompanyEmployerContributionField.getText());
-        totalCompanyContributionField2.setText(totalCompanyContributionField.getText());
         totalEmployeeContributionField.setText(FormatterUtil.formatAmount(report.getTotalDue()));
         totalEmployerContributionField.setText(totalEmployeeContributionField.getText());
         totalContributionField.setText(FormatterUtil.formatAmount(report.getTotalDue().multiply(BigDecimal.valueOf(2L))));

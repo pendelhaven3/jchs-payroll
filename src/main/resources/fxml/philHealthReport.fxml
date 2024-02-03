@@ -79,19 +79,19 @@
 			<GridPane vgap="10" alignment="center">
 				<Label text="Total EE:" prefWidth="175"
 					GridPane.columnIndex="0" GridPane.rowIndex="0" />
-				<Label fx:id="totalCompanyEmployeeContributionField" prefWidth="100" alignment="center_right"
+				<Label fx:id="totalEmployeeContributionField" prefWidth="100" alignment="center_right"
 					GridPane.columnIndex="1" GridPane.rowIndex="0" />
 				<Region prefWidth="50"
 					GridPane.columnIndex="2" GridPane.rowIndex="0" />
 				<Label text="Total ER:" prefWidth="175"
 					GridPane.columnIndex="3" GridPane.rowIndex="0" />
-				<Label fx:id="totalCompanyEmployerContributionField" prefWidth="100" alignment="center_right"
+				<Label fx:id="totalEmployerContributionField" prefWidth="100" alignment="center_right"
 					GridPane.columnIndex="4" GridPane.rowIndex="0" />
 				<Region prefWidth="50"
 					GridPane.columnIndex="5" GridPane.rowIndex="0" />
 				<Label text="Total:" prefWidth="175"
 					GridPane.columnIndex="6" GridPane.rowIndex="0" />
-				<Label fx:id="totalCompanyContributionField" prefWidth="100" alignment="center_right"
+				<Label fx:id="totalContributionField" prefWidth="100" alignment="center_right"
 					GridPane.columnIndex="7" GridPane.rowIndex="0" />
 			</GridPane>
 		

@@ -14,6 +14,7 @@ import lombok.Setter;
 @SqlResultSetMapping(name = "pagIbigReportItemMapping", 
     classes = {
         @ConstructorResult(targetClass = PagIbigReportItem.class, columns = {
+            @ColumnResult(name = "employeeId", type = Long.class),
             @ColumnResult(name = "employeeName"),
             @ColumnResult(name = "pagIbigNumber"),
             @ColumnResult(name = "employeeContribution", type = BigDecimal.class),
@@ -30,6 +31,7 @@ public class PagIbigReportItem {
     @Id
     private Long id;
     
+    private Long employeeId;
     private String employeeName;
     private String pagIbigNumber;
     private BigDecimal employeeContribution;
@@ -37,7 +39,13 @@ public class PagIbigReportItem {
  
     public PagIbigReportItem() { }
 
-    public PagIbigReportItem(String employeeName, String pagIbigNumber, BigDecimal employeeContribution, BigDecimal employerContribution) {
+    public PagIbigReportItem(
+    		Long employeeId,
+    		String employeeName,
+    		String pagIbigNumber,
+    		BigDecimal employeeContribution,
+    		BigDecimal employerContribution) {
+    	this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.pagIbigNumber = pagIbigNumber;
         this.employeeContribution = employeeContribution;
