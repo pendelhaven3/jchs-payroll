@@ -133,7 +133,7 @@ public class PayrollReportController extends AbstractController {
 
 	private String getExcelFilename() {
 		YearMonth yearMonth = getYearMonthCriteria();
-		return MessageFormat.format("payroll_report_{0}_{1}.xlsx", 
+		return MessageFormat.format("payroll_report_{0}_{1}-MEY.xlsx", 
 				String.valueOf(yearMonth.getYear()),
 				StringUtils.leftPad(String.valueOf(yearMonth.getMonthValue()), 2, '0'));
 	}
