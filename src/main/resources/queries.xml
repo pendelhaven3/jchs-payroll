@@ -381,7 +381,8 @@ SELECT
 	IFNULL(a.employerContribution, 0) AS employerContribution
 FROM employee d
 LEFT JOIN (
-	SELECT a.id AS employeeId, MAX(-d.amount) as employeeContribution, 100 as employerContribution
+	SELECT a.id AS employeeId, MAX(-d.amount) as employeeContribution,
+	    (case when STR_TO_DATE(CONCAT('01', d.contributionMonth), '%d%m%Y') >= '2024-02-01' then 200 else 100 end) as employerContribution
 	FROM employee a
 	JOIN payslip b
 	  ON b.employee_id = a.id
