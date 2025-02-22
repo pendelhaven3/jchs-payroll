@@ -3,6 +3,7 @@ package com.jchs.payrollapp.service.impl;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,8 @@ import com.jchs.payrollapp.dao.SalaryDao;
 import com.jchs.payrollapp.model.Employee;
 import com.jchs.payrollapp.model.EmployeeLoanPayment;
 import com.jchs.payrollapp.model.EmployeeLoanType;
+import com.jchs.payrollapp.model.PhilHealthContributionTable;
+import com.jchs.payrollapp.model.SSSContributionTable;
 import com.jchs.payrollapp.model.report.BasicSalaryReport;
 import com.jchs.payrollapp.model.report.BasicSalaryReportItem;
 import com.jchs.payrollapp.model.report.LatesReport;
@@ -31,15 +34,26 @@ import com.jchs.payrollapp.model.report.PhilHealthReport;
 import com.jchs.payrollapp.model.report.PhilHealthReportItem;
 import com.jchs.payrollapp.model.report.SSSReport;
 import com.jchs.payrollapp.model.report.SSSReportItem;
+import com.jchs.payrollapp.service.PhilHealthService;
 import com.jchs.payrollapp.service.ReportService;
+import com.jchs.payrollapp.service.SSSService;
 
 @Service
 public class ReportServiceImpl implements ReportService {
 
+    private static final List<String> SPECIAL_SSS_NUMBERS =
+            Arrays.asList("34-2262850-4", "33-6187727-0");
+    private static final List<String> SPECIAL_PHILHEALTH_NUMBERS =
+            Arrays.asList("19-025105390-5", "10-50259190-3");
+    private static final List<String> SPECIAL_PAGIBIG_NUMBERS =
+            Arrays.asList("1212-2749-6831", "1060-0016-1403");    
+    
 	@Autowired private ReportDao reportDao;
 	@Autowired private EmployeeRepository employeeRepository;
 	@Autowired private SalaryDao salaryDao;
 	@Autowired private EmployeeLoanPaymentRepository employeeLoanPaymentRepository;
+	@Autowired private SSSService sssService;
+    @Autowired private PhilHealthService philHealthService;
 	
 	@Override
 	public LatesReport generateLatesReport(Date from, Date to) {
@@ -96,6 +110,15 @@ public class ReportServiceImpl implements ReportService {
         PhilHealthReport report = new PhilHealthReport();
         report.setYearMonth(yearMonth);
         report.setItems(reportDao.getPhilHealthReportItems(yearMonth));
+        
+        PhilHealthContributionTable philHealthContributionTable = philHealthService.getContributionTable();
+        
+        report.getItems().stream()
+            .filter(item -> SPECIAL_PHILHEALTH_NUMBERS.contains(item.getPhilHealthNumber()))
+            .forEach(item -> {
+                item.setDue(philHealthContributionTable.getEmployeeShare(item.getMonthlyPay(), false));
+            });
+        
         return report;
 	}
 
@@ -104,6 +127,19 @@ public class ReportServiceImpl implements ReportService {
         SSSReport report = new SSSReport();
         report.setYearMonth(yearMonth);
         report.setItems(reportDao.getSSSReportItems(yearMonth));
+        
+        SSSContributionTable sssContributionTable = sssService.getSSSContributionTable();
+        
+		report.getItems().stream()
+			.filter(item -> SPECIAL_SSS_NUMBERS.contains(item.getSssNumber()))
+			.forEach(item -> {
+				item.setEmployeeContribution(sssContributionTable.getEmployeeContribution(item.getMonthlyPay(), false));
+				item.setEmployerContribution(sssContributionTable.getEmployerContribution(item.getMonthlyPay(), false));
+				item.setEmployeeCompensation(sssContributionTable.getEmployeeCompensation(item.getMonthlyPay(), false));
+				item.setEmployeeProvidentFundContribution(sssContributionTable.getEmployeeCompensation(item.getMonthlyPay(), false));
+				item.setEmployerProvidentFundContribution(sssContributionTable.getEmployeeCompensation(item.getMonthlyPay(), false));
+			});
+        
         return report;
 	}
 
@@ -112,6 +148,14 @@ public class ReportServiceImpl implements ReportService {
         PagIbigReport report = new PagIbigReport();
         report.setYearMonth(yearMonth);
         report.setItems(reportDao.getPagIbigReportItems(yearMonth));
+        
+        report.getItems().stream()
+	        .filter(item -> SPECIAL_PAGIBIG_NUMBERS.contains(item.getPagIbigNumber()))
+	        .forEach(item -> {
+	            item.setEmployeeContribution(BigDecimal.valueOf(200L));
+	            item.setEmployerContribution(BigDecimal.valueOf(200L));
+	        });
+    
         return report;
 	}
 	
