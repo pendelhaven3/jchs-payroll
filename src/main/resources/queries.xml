@@ -318,7 +318,7 @@ SELECT
     IFNULL(a.employeeProvidentFundContribution, 0) AS employeeProvidentFundContribution,
     IFNULL(a.employerProvidentFundContribution, 0) AS employerProvidentFundContribution    
 FROM employee d
-LEFT JOIN (
+JOIN (
 	SELECT a.id AS employeeId, MAX(-d.amount) as employeeContribution, MAX(e.employerContribution) AS employerContribution,
 		MAX(e.employeeCompensation) as employeeCompensation,
 		MAX(e.employeeProvidentFundContribution) as employeeProvidentFundContribution,
@@ -328,17 +328,17 @@ LEFT JOIN (
 	  ON b.employee_id = a.id
 	JOIN payroll c
 	  ON c.id = b.payroll_id
-	LEFT JOIN payslipAdjustment d
+	JOIN payslipAdjustment d
 	  ON d.payslip_id = b.id
 	  AND d.type = 'SSS'
-	LEFT JOIN sssContributionTableEntry e
+	JOIN sssContributionTableEntry e
 	  on e.employeeContribution = -d.amount
 	WHERE (a.resignDate is null OR a.resignDate >= DATE_ADD(:firstDayOfMonth, INTERVAL 1 MONTH))
 	AND d.contributionMonth = :contributionMonth
 	GROUP BY a.ID
 ) a
 	ON a.employeeId = d.id	
-LEFT JOIN (
+JOIN (
 	SELECT id AS employeeId, IFNULL(SUM(
 		(CASE payType 
 			WHEN 'PER_DAY' THEN rate
