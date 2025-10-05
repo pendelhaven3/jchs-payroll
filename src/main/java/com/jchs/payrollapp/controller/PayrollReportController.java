@@ -25,6 +25,7 @@ import com.jchs.payrollapp.model.report.PayrollReportItem;
 import com.jchs.payrollapp.report.excel.PayrollReportExcelGenerator;
 import com.jchs.payrollapp.service.EmployeeService;
 import com.jchs.payrollapp.service.ReportService;
+import com.jchs.payrollapp.service.SystemService;
 import com.jchs.payrollapp.util.DateUtil;
 import com.jchs.payrollapp.util.ExcelUtil;
 
@@ -40,6 +41,7 @@ public class PayrollReportController extends AbstractController {
 	
 	@Autowired private EmployeeService employeeService;
 	@Autowired private ReportService reportService;
+	@Autowired private SystemService systemService;
 	
 	@FXML private ComboBox<Month> monthComboBox;
 	@FXML private ComboBox<Integer> yearComboBox;
@@ -92,7 +94,8 @@ public class PayrollReportController extends AbstractController {
 		
 		try (
 			Workbook workbook = new PayrollReportExcelGenerator().generate(
-					reportService.generatePayrollReport(getYearMonthCriteria(), employeeComboBox.getValue()));
+					reportService.generatePayrollReport(getYearMonthCriteria(), employeeComboBox.getValue()),
+					systemService.getCompanyProfile());
 			FileOutputStream out = new FileOutputStream(file);
 		) {
 			workbook.write(out);

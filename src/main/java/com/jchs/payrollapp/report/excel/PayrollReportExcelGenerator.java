@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.jchs.payrollapp.model.CompanyProfile;
 import com.jchs.payrollapp.model.report.PayrollReport;
 import com.jchs.payrollapp.model.report.PayrollReportItem;
 
@@ -21,7 +22,7 @@ public class PayrollReportExcelGenerator {
 	private static final int DATA_ROWS_START = 5;
 	private static final int SUMMARY_ROWS_END = 16;
 	
-	public Workbook generate(PayrollReport report) throws IOException {
+	public Workbook generate(PayrollReport report, CompanyProfile companyProfile) throws IOException {
 		XSSFWorkbook workbook = new XSSFWorkbook(getClass().getResourceAsStream("/excel/payroll_report.xlsx"));
 		
 		int month = report.getYearMonth().getMonthValue();
@@ -35,6 +36,10 @@ public class PayrollReportExcelGenerator {
 		
 		Cell cell = null;
 		Row row = null;
+		
+		row = sheet.getRow(0);
+		cell = row.getCell(0, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+		cell.setCellValue(companyProfile.getName().toUpperCase());
 		
 		row = sheet.getRow(1);
 		cell = row.getCell(0, MissingCellPolicy.CREATE_NULL_AS_BLANK);
